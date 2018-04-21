@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Created by super on 2/10/2018.
  */
 
-public class HardwarePushturtle {
+public class HardwarePushturtl {
     /* Public OpMode members. */
     public DcMotor  leftFrontDrive      = null;
     public DcMotor  rightFrontDrive     = null;
@@ -20,7 +20,7 @@ public class HardwarePushturtle {
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public HardwarePushturtle(){
+    public HardwarePushturtl(){
 
     }
 

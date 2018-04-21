@@ -4,19 +4,17 @@ package Turtlecode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.Range;
 
-import Turtlecode.HardwarePushturtle;
-
+import Turtlecode.HardwarePushturtl;
 
 @TeleOp(name="Things", group="PushbotPotato")
 public class MecanumWheelCode extends LinearOpMode {
 
-    HardwarePushturtle robot = new HardwarePushturtle();
+    HardwarePushturtl robot = new HardwarePushturtl();
 
-    double FORWARDNESS_MULTIPLIER   = 0.1;
-    double STRAFENESS_MULTIPLIER   = 0.1;
-    double TURNYNESS_MULTIPLIER     = 0.1;
+    double FORWARDNESS_MULTIPLIER   = 0.5;
+    double STRAFENESS_MULTIPLIER   = 0.5;
+    double TURNYNESS_MULTIPLIER     = 0.5;
 
     @Override
     public void runOpMode() {
