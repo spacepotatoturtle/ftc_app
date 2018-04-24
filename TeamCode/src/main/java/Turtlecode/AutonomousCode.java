@@ -14,7 +14,7 @@ import static Turtlecode.AutonomousConfig.*;
 import static Turtlecode.HardwarePushturtl.*;
 
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Blue Close to Audience", group ="AutonomousCode")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Autonomous", group ="AutonomousCode")
 public class AutonomousCode extends LinearOpMode {
     /**
      * Team 12547 robot variables
