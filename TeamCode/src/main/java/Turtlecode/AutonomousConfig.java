@@ -56,46 +56,10 @@ public class AutonomousConfig {
     public static final double ENCODER_RUN_SPEED                    = 0.1;
     public static final int REST_AFTER_ENCODER_RUN_MIL_SECONDS      = ONE_SECOND_IN_MIL / 4;
 
-    public static final double JEWEL_DISPOSITION_DISTANCE_INCHES    = 2;
-    public static final double JEWEL_DISPOSITION_TIMEOUT_SECONDS    = 3;
-
     public static final double NINETY_DEGREE_TURN                   = 13.5 * 3.14159265358979;
     public static final double ONE_DEGREE_TURN                      = NINETY_DEGREE_TURN / 90;
 
-    public static final double START_TO_MIDDLE_DISTANCE_INCHES      = 35;
-    public static final double DESTINATION_TIMEOUT_SECONDS          = 50;
-
-    //1=red close
-    //2=blue far
-    //3=red far
-    //4=blue close
-
-    public static final double START_TO_NEAREST_ANGLE               = ONE_DEGREE_TURN * 105 / 3 * 2;
-    public static final double START_TO_MIDDLE_ANGLE                = ONE_DEGREE_TURN * 90 / 3 * 2;
-    public static final double START_TO_FURTHEST_ANGLE              = ONE_DEGREE_TURN * 80 / 3 * 2;
-    public static final double START_TO_NEAREST_ANGLE_3             = ONE_DEGREE_TURN * 165 / 3 * 2;
-    public static final double START_TO_MIDDLE_ANGLE_3              = ONE_DEGREE_TURN * 190 / 3 * 2;
-    // change the one below
-    public static final double START_TO_FURTHEST_ANGLE_3            = ONE_DEGREE_TURN * 185 / 3 * 2;
-
-    public static final double START_TO_NEAREST_ANGLE_2             = ONE_DEGREE_TURN * 5 / 3 * 2;
-    public static final double START_TO_MIDDLE_ANGLE_2              = ONE_DEGREE_TURN * 20 / 3 * 2;
-    public static final double START_TO_FURTHEST_ANGLE_2            = ONE_DEGREE_TURN * 45 / 3 * 2;
-    public static final double START_TO_NEAREST_ANGLE_4             = ONE_DEGREE_TURN * 75 / 3 * 2;
-    public static final double START_TO_MIDDLE_ANGLE_4              = ONE_DEGREE_TURN * 55 / 3 * 2;
-    public static final double START_TO_FURTHEST_ANGLE_4            = ONE_DEGREE_TURN * 45 / 3 * 2;
-
-    public static final double DISTANCE_TO_RACK_WITH_EXTRA_INSURANCE        = 30;
-    public static final double EIGHTEEN_INCHES                              = 23;
-    public static final double HALF_FOOT                                    = 12;
-    public static final double THREE_INCHES                                 = 8;
-
-    public static final double DESTINATION_TURN_SPEED               = 0.6;
-    public static final double DESTINATION_TURN_TIMEOUT_SECONDS     = 5;
-
-    public static final double TO_RACK_TIMEOUT_SECONDS              = 12;
-
-    public static final double COUNTS_PER_MOTOR_REV    = 1120; // if using tetrix motors, set number to 1440 eg: TETRIX Motor Encoder
+    public static final double COUNTS_PER_MOTOR_REV    = -1120; // if using tetrix motors, set number to 1440 eg: TETRIX Motor Encoder
     public static final double DRIVE_GEAR_REDUCTION    = 0.5;  // This is < 1.0 if geared UP
     public static final double WHEEL_DIAMETER_INCHES   = 4.0;  // For figuring circumference
     public static final double COUNTS_PER_INCH
