@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import static Turtlecode.AutonomousConfig.*;
 import static Turtlecode.HardwarePushturtl.*;
@@ -41,6 +42,8 @@ public class AutonomousCode extends LinearOpMode {
         waitForStart();
 
         encoderDriver.encoderDrive(0.9, 12, 12, 12, 12, 100);
+        encoderDriver.encoderDrive(0.9, -12, -12, -12, -12, 100);
+        encoderDriver.encoderDrive(0.9, -NINETY_DEGREE_TURN * 2, NINETY_DEGREE_TURN * 2, -NINETY_DEGREE_TURN * 2, NINETY_DEGREE_TURN * 2, 100);
 
         telemetry.addData("Mission ", "Complete");
         telemetry.update();
