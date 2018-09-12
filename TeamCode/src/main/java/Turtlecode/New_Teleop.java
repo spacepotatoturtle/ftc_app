@@ -3,15 +3,16 @@ package Turtlecode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import java.math.*;
 
 @TeleOp(name="Things", group="PushbotPotato")
 public class New_Teleop extends LinearOpMode {
 
     HardwarePushturtl robot = new HardwarePushturtl();
 
-    double FORWARDNESS_MULTIPLIER   = 1;
-    double STRAFENESS_MULTIPLIER    = 1;
-    double TURNYNESS_MULTIPLIER     = 1;
+    double FORWARDNESS_MULTIPLIER   = 0.6;
+    double STRAFENESS_MULTIPLIER    = 0.6;
+    double TURNYNESS_MULTIPLIER     = 0.6;
     double GUNNYNESS_MULTIPLIER     = 0.1;
     double TRIGGERNESS = 0;
 
@@ -31,10 +32,17 @@ public class New_Teleop extends LinearOpMode {
             //robot.frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             //robot.frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-            robot.rearLeftDrive.setPower((FORWARDNESS + STRAFENESS - TURNYNESS) / 3);
-            robot.rearRightDrive.setPower((FORWARDNESS - STRAFENESS + TURNYNESS) / 3);
-            robot.frontLeftDrive.setPower((FORWARDNESS - STRAFENESS - TURNYNESS) / 3);
-            robot.frontRightDrive.setPower((FORWARDNESS + STRAFENESS + TURNYNESS) / 3);
+            double RL = FORWARDNESS + STRAFENESS - TURNYNESS;
+            double RR = FORWARDNESS - STRAFENESS + TURNYNESS;
+            double FL = FORWARDNESS - STRAFENESS - TURNYNESS;
+            double FR = FORWARDNESS + STRAFENESS + TURNYNESS;
+
+            double MAX = Math.abs(Math.max(Math.max(RL, RR), Math.max(FL, FR)));
+
+            robot.rearLeftDrive.setPower(RL / MAX);
+            robot.rearRightDrive.setPower(RR / MAX);
+            robot.frontLeftDrive.setPower(FL / MAX);
+            robot.frontRightDrive.setPower(FR / MAX);
 
             telemetry.addData("Forwardness%3A", FORWARDNESS);
             telemetry.addData("Strafeness%3A", STRAFENESS);
