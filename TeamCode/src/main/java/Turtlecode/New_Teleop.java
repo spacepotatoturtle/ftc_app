@@ -31,9 +31,9 @@ public class New_Teleop extends LinearOpMode {
             //robot.frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             //robot.frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-            robot.rearLeftDrive.setPower((FORWARDNESS - STRAFENESS - TURNYNESS) / 3);
+            robot.rearLeftDrive.setPower((FORWARDNESS + STRAFENESS - TURNYNESS) / 3);
             robot.rearRightDrive.setPower((FORWARDNESS - STRAFENESS + TURNYNESS) / 3);
-            robot.frontLeftDrive.setPower((FORWARDNESS + STRAFENESS - TURNYNESS) / 3);
+            robot.frontLeftDrive.setPower((FORWARDNESS - STRAFENESS - TURNYNESS) / 3);
             robot.frontRightDrive.setPower((FORWARDNESS + STRAFENESS + TURNYNESS) / 3);
 
             telemetry.addData("Forwardness%3A", FORWARDNESS);
