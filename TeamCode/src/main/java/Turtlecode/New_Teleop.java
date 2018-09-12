@@ -3,9 +3,6 @@ package Turtlecode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-
-import Turtlecode.HardwarePushturtl;
 
 @TeleOp(name="Things", group="PushbotPotato")
 public class New_Teleop extends LinearOpMode {
@@ -29,28 +26,28 @@ public class New_Teleop extends LinearOpMode {
             double STRAFENESS  = gamepad1.left_stick_x * STRAFENESS_MULTIPLIER;
             double TURNYNESS   = gamepad1.right_stick_x * TURNYNESS_MULTIPLIER;
 
-            //robot.leftRearDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            //robot.rightRearDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            //robot.leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            //robot.rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            //robot.rearLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            //robot.rearRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            //robot.frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            //robot.frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-            robot.leftRearDrive.setPower((FORWARDNESS - STRAFENESS - TURNYNESS) / 3);
-            robot.rightRearDrive.setPower((FORWARDNESS - STRAFENESS + TURNYNESS) / 3);
-            robot.leftFrontDrive.setPower((FORWARDNESS + STRAFENESS - TURNYNESS) / 3);
-            robot.rightFrontDrive.setPower((FORWARDNESS + STRAFENESS + TURNYNESS) / 3);
+            robot.rearLeftDrive.setPower((FORWARDNESS - STRAFENESS - TURNYNESS) / 3);
+            robot.rearRightDrive.setPower((FORWARDNESS - STRAFENESS + TURNYNESS) / 3);
+            robot.frontLeftDrive.setPower((FORWARDNESS + STRAFENESS - TURNYNESS) / 3);
+            robot.frontRightDrive.setPower((FORWARDNESS + STRAFENESS + TURNYNESS) / 3);
 
             telemetry.addData("Forwardness%3A", FORWARDNESS);
             telemetry.addData("Strafeness%3A", STRAFENESS);
             telemetry.addData("Turnyness%3A", TURNYNESS);
-            telemetry.addData("LEFT REAR", robot.leftRearDrive.getPower());
-            telemetry.addData("RIGHT REAR", robot.rightRearDrive.getPower());
-            telemetry.addData("LEFT FRONT", robot.leftFrontDrive.getPower());
-            telemetry.addData("RIGHT FRONT", robot.rightFrontDrive.getPower());
+            telemetry.addData("LEFT REAR", robot.rearLeftDrive.getPower());
+            telemetry.addData("RIGHT REAR", robot.rearRightDrive.getPower());
+            telemetry.addData("LEFT FRONT", robot.frontLeftDrive.getPower());
+            telemetry.addData("RIGHT FRONT", robot.frontRightDrive.getPower());
             telemetry.addData("===[ENCODER VALUES]===", "");
-            telemetry.addData("lf=", robot.leftFrontDrive.getCurrentPosition());
-            telemetry.addData("lr=", robot.leftRearDrive.getCurrentPosition());
-            telemetry.addData("rf=", robot.rightFrontDrive.getCurrentPosition());
-            telemetry.addData("rr=", robot.rightRearDrive.getCurrentPosition());
+            telemetry.addData("lf=", robot.frontLeftDrive.getCurrentPosition());
+            telemetry.addData("lr=", robot.rearLeftDrive.getCurrentPosition());
+            telemetry.addData("rf=", robot.frontRightDrive.getCurrentPosition());
+            telemetry.addData("rr=", robot.rearRightDrive.getCurrentPosition());
             telemetry.update();
             sleep(25);
         }
