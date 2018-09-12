@@ -10,9 +10,10 @@ public class New_Teleop extends LinearOpMode {
 
     HardwarePushturtl robot = new HardwarePushturtl();
 
-    double FORWARDNESS_MULTIPLIER   = 0.6;
-    double STRAFENESS_MULTIPLIER    = 0.6;
-    double TURNYNESS_MULTIPLIER     = 0.6;
+    double MASTER_MULTIPLIER        = 0.6;
+    double FORWARDNESS_MULTIPLIER   = 1;
+    double STRAFENESS_MULTIPLIER    = 1;
+    double TURNYNESS_MULTIPLIER     = 1;
     double GUNNYNESS_MULTIPLIER     = 0.1;
     double TRIGGERNESS = 0;
 
@@ -39,10 +40,10 @@ public class New_Teleop extends LinearOpMode {
 
             double MAX = Math.abs(Math.max(Math.max(RL, RR), Math.max(FL, FR)));
 
-            robot.rearLeftDrive.setPower(RL / MAX);
-            robot.rearRightDrive.setPower(RR / MAX);
-            robot.frontLeftDrive.setPower(FL / MAX);
-            robot.frontRightDrive.setPower(FR / MAX);
+            robot.rearLeftDrive.setPower(MASTER_MULTIPLIER * RL / MAX);
+            robot.rearRightDrive.setPower(MASTER_MULTIPLIER * RR / MAX);
+            robot.frontLeftDrive.setPower(MASTER_MULTIPLIER * FL / MAX);
+            robot.frontRightDrive.setPower(MASTER_MULTIPLIER * FR / MAX);
 
             telemetry.addData("Forwardness%3A", FORWARDNESS);
             telemetry.addData("Strafeness%3A", STRAFENESS);
