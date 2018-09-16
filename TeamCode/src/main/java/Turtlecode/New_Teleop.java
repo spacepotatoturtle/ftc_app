@@ -3,7 +3,6 @@ package Turtlecode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import java.math.*;
 
 @TeleOp(name="Things", group="PushbotPotato")
 public class New_Teleop extends LinearOpMode {
