@@ -33,8 +33,6 @@ public class AutonomousCode extends LinearOpMode {
         waitForStart();
 
         encoderDriver.encoderDrive(0.9, 12, 12, 12, 12, 100);
-        encoderDriver.encoderDrive(0.9, -12, -12, -12, -12, 100);
-        encoderDriver.encoderDrive(0.9, -NINETY_DEGREE_TURN * 2, NINETY_DEGREE_TURN * 2, -NINETY_DEGREE_TURN * 2, NINETY_DEGREE_TURN * 2, 100);
 
         telemetry.addData("Mission ", "Complete");
         telemetry.update();
