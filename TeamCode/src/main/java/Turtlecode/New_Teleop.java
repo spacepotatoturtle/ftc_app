@@ -18,7 +18,7 @@ public class New_Teleop extends LinearOpMode {
 
     HardwarePushturtl robot = new HardwarePushturtl();
 
-    double MASTER_MULTIPLIER        = 0.6;
+    double MASTER_MULTIPLIER        = 0.4;
     double FORWARDNESS_MULTIPLIER   = 1;
     double STRAFENESS_MULTIPLIER    = 1;
     double TURNYNESS_MULTIPLIER     = 1;
