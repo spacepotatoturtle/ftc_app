@@ -30,63 +30,61 @@ class PID_Shell {
 
     }
 
-    void pidLoop(double meters, double seconds, double precision) {
+    void pidLoop(double angleTarget, double seconds, double precision) {
+        if (autonomousMode.opModeIsActive()) {
 
-        ElapsedTime runtime = new ElapsedTime();
+            ElapsedTime runtime = new ElapsedTime();
 
-        double vTarget = meters / seconds;
+            double kP = 0.3;
+            double kD = 0;
+            double kI = 0;
 
-        double kP = 1;
-        double kD = 1;
-        double kI = 1;
+            double angle;
+            double err;
+            double errP = 0;
+            double errS = 0;
+            double P;
+            double D;
+            double I;
+            double correction;
 
-        double vMag;
-        double err;
-        double errP = 0;
-        double errS = 0;
-        double P;
-        double D;
-        double I;
-        double correction;
+            robot.rearLeftDrive.setPower(0.3);
+            robot.rearRightDrive.setPower(0.3);
+            robot.frontLeftDrive.setPower(0.3);
+            robot.frontRightDrive.setPower(0.3);
 
-        robot.rearLeftDrive.setPower(0);
-        robot.rearRightDrive.setPower(0);
-        robot.frontLeftDrive.setPower(0);
-        robot.frontRightDrive.setPower(0);
+            runtime.reset();
 
-        runtime.reset();
+            while (autonomousMode.opModeIsActive() &&
+                    (runtime.seconds() < seconds) /*&&
+                    (robot.frontLeftDrive.isBusy() && robot.frontRightDrive.isBusy() && robot.rearRightDrive.isBusy() && robot.rearLeftDrive.isBusy())*/) {
 
-        while (autonomousMode.opModeIsActive() &&
-              (runtime.seconds() < seconds) &&
-              (robot.frontLeftDrive.isBusy() && robot.frontRightDrive.isBusy() && robot.rearRightDrive.isBusy() && robot.rearLeftDrive.isBusy())) {
+                angle = robot.imu.getAngularOrientation().firstAngle;
+                err = angleTarget - angle;
+                errS = errS + err;
 
-            vMag = Math.pow(Math.pow(robot.imu.getVelocity().xVeloc, 2) +
-                            Math.pow(robot.imu.getVelocity().yVeloc, 2) +
-                            Math.pow(robot.imu.getVelocity().zVeloc, 2), 0.5);
-            err = vTarget - vMag;
-            errS = errS + err;
+                P = kP * err;
+                D = kD * (err - errP) / precision;
+                I = kI * errS * precision;
+                correction = P + D + I;
 
-            P = kP * err;
-            D = kD * (err - errP) / precision;
-            I = kI * errS * precision;
-            correction = P + D + I;
+                robot.rearLeftDrive.setPower(robot.rearLeftDrive.getPower() - correction);
+                robot.rearRightDrive.setPower(robot.rearRightDrive.getPower() + correction);
+                robot.frontLeftDrive.setPower(robot.frontLeftDrive.getPower() - correction);
+                robot.frontRightDrive.setPower(robot.frontRightDrive.getPower() + correction);
 
-            robot.rearLeftDrive.setPower(robot.rearLeftDrive.getPower() + correction);
-            robot.rearRightDrive.setPower(robot.rearRightDrive.getPower() + correction);
-            robot.frontLeftDrive.setPower(robot.frontLeftDrive.getPower() + correction);
-            robot.frontRightDrive.setPower(robot.frontRightDrive.getPower() + correction);
+                errP = angleTarget - angle;
 
-            errP = vTarget - vMag;
+                telemetry.addData("Angle Error:", robot.imu.getAngularOrientation());
+                telemetry.update();
 
-            telemetry.addData("Velocity Error:", robot.imu.getVelocity());
-            telemetry.update();
+                autonomousMode.sleep((long) precision);
+            }
 
-            autonomousMode.sleep((long) precision);
+            robot.rearLeftDrive.setPower(0);
+            robot.rearRightDrive.setPower(0);
+            robot.frontLeftDrive.setPower(0);
+            robot.frontRightDrive.setPower(0);
         }
-
-        robot.rearLeftDrive.setPower(0);
-        robot.rearRightDrive.setPower(0);
-        robot.frontLeftDrive.setPower(0);
-        robot.frontRightDrive.setPower(0);
     }
 }

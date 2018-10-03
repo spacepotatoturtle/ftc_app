@@ -45,10 +45,10 @@ public class New_Teleop extends LinearOpMode {
             //robot.frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             robot.arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-            double RL = FORWARDNESS + STRAFENESS - TURNYNESS;
-            double RR = FORWARDNESS - STRAFENESS + TURNYNESS;
-            double FL = FORWARDNESS - STRAFENESS - TURNYNESS;
-            double FR = FORWARDNESS + STRAFENESS + TURNYNESS;
+            double RL = -FORWARDNESS - STRAFENESS + TURNYNESS;
+            double RR = -FORWARDNESS + STRAFENESS - TURNYNESS;
+            double FL = -FORWARDNESS + STRAFENESS + TURNYNESS;
+            double FR = -FORWARDNESS - STRAFENESS - TURNYNESS;
 
             double MAX = Math.abs(Math.max(Math.max(RL, RR), Math.max(FL, FR)));
 

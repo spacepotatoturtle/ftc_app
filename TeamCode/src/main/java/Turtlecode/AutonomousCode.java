@@ -16,6 +16,7 @@ public class AutonomousCode extends LinearOpMode {
     private HardwarePushturtl robot = new HardwarePushturtl();   // Use a Pushbot's hardware
 
     private EncoderDriver encoderDriver = new EncoderDriver(this, robot, telemetry);
+    private PID_Shell pid_shell = new PID_Shell(this, robot, telemetry);
 
     @Override
     public void runOpMode() {
@@ -32,7 +33,8 @@ public class AutonomousCode extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        encoderDriver.encoderDrive(0.9, 12, 12, 12, 12, 100);
+        pid_shell.pidLoop(0, 3, 100);
+        //encoderDriver.encoderDrive(0.9, 12, 12, 12, 12, 100);
 
         telemetry.addData("Mission ", "Complete");
         telemetry.update();
