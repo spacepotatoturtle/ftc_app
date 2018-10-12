@@ -24,6 +24,7 @@ public class New_Teleop extends LinearOpMode {
     double STRAFENESS_MULTIPLIER    = 1;
     double TURNYNESS_MULTIPLIER     = 1;
     double ARMPOWER_MULTIPLIER = 0.7;
+    double COMBPOWER_MULTIPLIER = 0.4;
     double TRIGGERNESS = 0;
 
 
@@ -57,6 +58,28 @@ public class New_Teleop extends LinearOpMode {
             robot.frontLeftDrive.setPower(MASTER_MULTIPLIER * FL / MAX);
             robot.frontRightDrive.setPower(MASTER_MULTIPLIER * FR / MAX);
             robot.arm.setPower(ARMPOWER_MULTIPLIER * ARMPOWER);
+
+            if (gamepad1.left_trigger > 0.5) {
+            //    robot.clawLeft.setPosition(0.25);
+            } else {
+            //    robot.clawLeft.setPosition(1);
+            }
+
+            if (gamepad1.right_trigger > 0.5) {
+            //    robot.clawRight.setPosition(0.75);
+            } else {
+            //    robot.clawRight.setPosition(0);
+            }
+
+            /*
+            if (gamepad1.right_bumper) {
+                robot.comb.setPower(COMBPOWER_MULTIPLIER);
+            } else if (gamepad1.left_bumper) {
+                robot.comb.setPower(-COMBPOWER_MULTIPLIER);
+            } else {
+                robot.comb.setPower(0);
+            }
+            */
 
             telemetry.addData("Forwardness%3A", FORWARDNESS);
             telemetry.addData("Strafeness%3A", STRAFENESS);

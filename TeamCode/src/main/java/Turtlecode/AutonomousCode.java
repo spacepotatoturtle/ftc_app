@@ -33,8 +33,8 @@ public class AutonomousCode extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        pid_shell.pidLoop(0, 3, 100);
-        //encoderDriver.encoderDrive(0.9, 12, 12, 12, 12, 100);
+        //pid_shell.pidLoop(0, 3, 100);
+        encoderDriver.encoderDrive(0.7, 20, 20, 20, 20, 100);
 
         telemetry.addData("Mission ", "Complete");
         telemetry.update();
