@@ -2,6 +2,7 @@ package Turtlecode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import static Turtlecode.AutonomousConfig.*;
 
@@ -22,11 +23,13 @@ public class AutonomousCode extends LinearOpMode {
     public void runOpMode() {
         // Initialize the robot
         initRobot();
+        ElapsedTime runtime = new ElapsedTime();
 
         robot.frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.rearLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.rearRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.hook.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData(">", "Press Play to start");
@@ -34,7 +37,22 @@ public class AutonomousCode extends LinearOpMode {
         waitForStart();
 
         //pid_shell.pidLoop(0, 3, 100);
-        encoderDriver.encoderDrive(0.7, 20, 20, 20, 20, 100);
+        /*
+        runtime.reset();
+        while (runtime.seconds() < 1) {
+            robot.hook.setPower(1);
+        }
+        */
+        encoderDriver.encoderHook(1, 8, 100);
+        //encoderDriver.encoderDrive(0.7, -2, 2, 2, -2, 100);
+        //encoderDriver.encoderDrive(0.5, 24, 24, 24, 24, 100);
+        //while (robot.imu.getAngularOrientation().firstAngle < 90) {
+        //robot.frontLeftDrive.setPower(-0.3);
+        //robot.rearLeftDrive.setPower(-0.3);
+        //robot.frontRightDrive.setPower(0.3);
+        //robot.rearLeftDrive.setPower(0.3);
+        //}
+        //encoderDriver.encoderDrive(0.5, NINETY_DEGREE_TURN, -NINETY_DEGREE_TURN, NINETY_DEGREE_TURN, -NINETY_DEGREE_TURN, 100);
 
         telemetry.addData("Mission ", "Complete");
         telemetry.update();
