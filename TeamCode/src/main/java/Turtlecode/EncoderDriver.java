@@ -104,6 +104,53 @@ class EncoderDriver {
         }
     }
 
+    void encoderHook(double speed, double hookInches, double timeoutS) {
+        int newHookTarget;
+
+        ElapsedTime runtime = new ElapsedTime();
+
+        // Ensure that the opmode is still active
+        if (autonomousMode.opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            newHookTarget = robot.rearRightDrive.getCurrentPosition() + (int) (hookInches * COUNTS_PER_INCH);
+            robot.hook.setTargetPosition(newHookTarget);
+
+            // Turn On RUN_TO_POSITION
+            robot.hook.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            while (autonomousMode.opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (robot.hook.isBusy())) {
+                robot.hook.setPower(speed);
+            }
+
+            // Display it for the driver.
+            // constant value, not needed to see. telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
+            //telemetry.addData("Path2", "Running at %7d :%7d",
+                    //robot.hook.getCurrentPosition());
+            //telemetry.update();
+
+            // Stop all motion;
+            robot.hook.setPower(0);
+
+            // Turn off RUN_TO_POSITION
+            robot.hook.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            // sleep(250);   // optional pause after each move
+        }
+    }
+
     // Apply zero power to the motors to stop.
     void stopMotorsAndRestShortly() {
         robot.frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
