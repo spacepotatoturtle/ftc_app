@@ -7,7 +7,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import static Turtlecode.AutonomousConfig.COUNTS_PER_INCH;
+import static Turtlecode.AutonomousConfig.COUNTS_PER_INCH_HOOK;
+import static Turtlecode.AutonomousConfig.COUNTS_PER_INCH_WHEELS;
 import static Turtlecode.AutonomousConfig.REST_AFTER_ENCODER_RUN_MIL_SECONDS;
 
 /**
@@ -45,10 +46,10 @@ class EncoderDriver {
         if (autonomousMode.opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftTarget = robot.frontLeftDrive.getCurrentPosition() + (int) (leftFrontInches * COUNTS_PER_INCH);
-            newRightTarget = robot.frontRightDrive.getCurrentPosition() + (int) (rightFrontInches * COUNTS_PER_INCH);
-            newLeftBackTarget = robot.rearLeftDrive.getCurrentPosition() + (int) (leftRearInches * COUNTS_PER_INCH);
-            newRightBackTarget = robot.rearRightDrive.getCurrentPosition() + (int) (rightRearInches * COUNTS_PER_INCH);
+            newLeftTarget = robot.frontLeftDrive.getCurrentPosition() + (int) (leftFrontInches * COUNTS_PER_INCH_WHEELS);
+            newRightTarget = robot.frontRightDrive.getCurrentPosition() + (int) (rightFrontInches * COUNTS_PER_INCH_WHEELS);
+            newLeftBackTarget = robot.rearLeftDrive.getCurrentPosition() + (int) (leftRearInches * COUNTS_PER_INCH_WHEELS);
+            newRightBackTarget = robot.rearRightDrive.getCurrentPosition() + (int) (rightRearInches * COUNTS_PER_INCH_WHEELS);
             robot.frontLeftDrive.setTargetPosition(newLeftTarget);
             robot.frontRightDrive.setTargetPosition(newRightTarget);
             robot.rearLeftDrive.setTargetPosition(newLeftBackTarget);
@@ -113,7 +114,7 @@ class EncoderDriver {
         if (autonomousMode.opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newHookTarget = robot.rearRightDrive.getCurrentPosition() + (int) (hookInches * COUNTS_PER_INCH);
+            newHookTarget = robot.rearRightDrive.getCurrentPosition() + (int) (hookInches * COUNTS_PER_INCH_HOOK);
             robot.hook.setTargetPosition(newHookTarget);
 
             // Turn On RUN_TO_POSITION

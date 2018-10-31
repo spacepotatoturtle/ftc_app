@@ -43,9 +43,10 @@ public class AutonomousCode extends LinearOpMode {
             robot.hook.setPower(1);
         }
         */
-        encoderDriver.encoderHook(1, 8, 100);
-        //encoderDriver.encoderDrive(0.7, -2, 2, 2, -2, 100);
-        //encoderDriver.encoderDrive(0.5, 24, 24, 24, 24, 100);
+        encoderDriver.encoderHook(0.6, 0, 30);
+        sleep(500);
+        encoderDriver.encoderDrive(0.7, -2, 2, 2, -2, 100);
+        encoderDriver.encoderDrive(0.7, -12, -12, -12, -12, 100);
         //while (robot.imu.getAngularOrientation().firstAngle < 90) {
         //robot.frontLeftDrive.setPower(-0.3);
         //robot.rearLeftDrive.setPower(-0.3);

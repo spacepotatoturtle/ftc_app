@@ -62,6 +62,8 @@ public class AutonomousConfig {
     public static final double COUNTS_PER_MOTOR_REV    = -1120; // if using tetrix motors, set number to 1440 eg: TETRIX Motor Encoder
     public static final double DRIVE_GEAR_REDUCTION    = 0.5;  // This is < 1.0 if geared UP
     public static final double WHEEL_DIAMETER_INCHES   = 4.0;  // For figuring circumference
-    public static final double COUNTS_PER_INCH
+    public static final double COUNTS_PER_INCH_WHEELS
             = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.14159265358979);
+
+    public static final double COUNTS_PER_INCH_HOOK    = 27.7 * COUNTS_PER_INCH_WHEELS;
 }
