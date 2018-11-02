@@ -1,11 +1,13 @@
 package Turtlecode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 /**
  * Created by super on 2/10/2018.
@@ -20,6 +22,8 @@ public class HardwarePushturtl {
     public DcMotor hook = null;
     //public DcMotor arm = null;
     public BNO055IMU imu = null;
+    //public ColorSensor color = null; don't need these
+    //public DistanceSensor distance = null; don't need these
     //public Servo clawLeft = null;
     //public Servo clawRight = null;
     //public DcMotor comb = null;
@@ -47,6 +51,9 @@ public class HardwarePushturtl {
         hook = hwMap.get(DcMotor.class, "HOOK");
         //arm = hwMap.get(DcMotor.class, "ARM");
         imu = hwMap.get(BNO055IMU.class, "IMU");
+        //color = hwMap.get(ColorSensor.class, "CS");
+        //distance = hwMap.get(DistanceSensor.class, "CS");
+
         //clawLeft = hwMap.get(Servo.class, "CLAWL");
         //clawRight = hwMap.get(Servo.class, "CLAWR");
         //comb = hwMap.get(DcMotor.class, "COMB");
