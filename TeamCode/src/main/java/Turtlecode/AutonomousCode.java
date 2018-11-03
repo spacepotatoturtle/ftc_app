@@ -27,7 +27,6 @@ public class AutonomousCode extends LinearOpMode {
 
     private EncoderDriver encoderDriver = new EncoderDriver(this, robot, telemetry);
     private PID_Shell pid_shell = new PID_Shell(this, robot, telemetry);
-    private ColorSensor colorSensor;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -41,10 +40,6 @@ public class AutonomousCode extends LinearOpMode {
         robot.rearRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.hook.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        float hsvValues[] = {0F, 0F, 0F};
-        final float values[] = hsvValues;
-        final double SCALE_FACTOR = 255;
-
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData(">", "Press Play to start");
         telemetry.update();
@@ -57,20 +52,22 @@ public class AutonomousCode extends LinearOpMode {
             robot.hook.setPower(1);
         }
         */
+
         encoderDriver.encoderHook(0.6, 0, 30);
         sleep(500);
-        encoderDriver.encoderDrive(0.7, -13, 13, 13, -13, 100);
-        encoderDriver.encoderDrive(0.7, -25, -25, -25, -25, 100);
-        Color.RGBToHSV((int) (colorSensor.red() * SCALE_FACTOR),
-                (int) (colorSensor.green() * SCALE_FACTOR),
-                (int) (colorSensor.blue() * SCALE_FACTOR),
-                hsvValues);
-        telemetry.addData("Blue ", colorSensor.blue());
-        telemetry.update();
-        while (colorSensor.blue() > 50) {
-            encoderDriver.encoderDrive(0.7, 17, -17, -17, 17, 100);
+        encoderDriver.encoderDrive(0.7, 6, -6, -6, 6, 6);
+        encoderDriver.encoderDrive(0.7, -17, -17, -17, -17, 100);
+        if (NEAR_CRATER) { // it is on the cater rim, rotations are same for both sides
+            encoderDriver.encoderDrive(0.7, 45, -45, -45, 45, 100);
+            encoderDriver.encoderDrive(0.7, 33, -33, 33, -33, 100);
+            encoderDriver.encoderDrive(0.7, -40, -40, -40, -40, 100);
+            encoderDriver.encoderDrive(0.7, 80, 80, 80, 80, 100);
+        } else { // it is near the depot
+            encoderDriver.encoderDrive(0.7, -40, -40, -40, -40, 100);
+            encoderDriver.encoderDrive(0.7, 11, -11, 11, -11, 100);
+            encoderDriver.encoderDrive(0.7, 84, 84, 84, 84, 100);
         }
-        encoderDriver.encoderDrive(0.7, -6, -6, -6, -6, 100);
+
 
         //while (robot.imu.getAngularOrientation().firstAngle < 90) {
         //robot.frontLeftDrive.setPower(-0.3);
@@ -86,6 +83,5 @@ public class AutonomousCode extends LinearOpMode {
 
     private void initRobot() {
         encoderDriver.init();
-        colorSensor = robot.hwMap.get(ColorSensor.class, "CS");
     }
 }

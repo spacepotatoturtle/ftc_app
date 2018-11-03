@@ -19,6 +19,7 @@ public class AutonomousConfig {
      * Set the team to the right color. BLUE or RED
      */
     public static int           TEAM_COLOR;
+    public static boolean       NEAR_CRATER                         = false;
     /**
      * VuMark configurations
      */
