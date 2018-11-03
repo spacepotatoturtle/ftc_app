@@ -42,6 +42,8 @@ public class AlexAutonomous extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
+        robot.depositor.setPosition(1);
+
         // while (runtime.seconds() < 1) {
         //    robot.frontLeftDrive.setPower(0.1);
         //    robot.frontRightDrive.setPower(0.1);

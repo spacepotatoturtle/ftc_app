@@ -61,9 +61,15 @@ public class AutonomousCode extends LinearOpMode {
             encoderDriver.encoderDrive(0.7, 45, -45, -45, 45, 100);
             encoderDriver.encoderDrive(0.7, 33, -33, 33, -33, 100);
             encoderDriver.encoderDrive(0.7, -40, -40, -40, -40, 100);
+            // depot
+            robot.depositor.setPosition(0.3);
+            robot.depositor.setPosition(1);
             encoderDriver.encoderDrive(0.7, 80, 80, 80, 80, 100);
         } else { // it is near the depot
             encoderDriver.encoderDrive(0.7, -40, -40, -40, -40, 100);
+            // depot
+            robot.depositor.setPosition(0.3);
+            robot.depositor.setPosition(1);
             encoderDriver.encoderDrive(0.7, 11, -11, 11, -11, 100);
             encoderDriver.encoderDrive(0.7, 84, 84, 84, 84, 100);
         }
@@ -83,5 +89,6 @@ public class AutonomousCode extends LinearOpMode {
 
     private void initRobot() {
         encoderDriver.init();
+        robot.depositor.setPosition(1);
     }
 }

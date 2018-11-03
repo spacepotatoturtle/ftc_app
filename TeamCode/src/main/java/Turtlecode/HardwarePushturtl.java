@@ -20,6 +20,7 @@ public class HardwarePushturtl {
     public DcMotor rearLeftDrive = null;
     public DcMotor rearRightDrive = null;
     public DcMotor hook = null;
+    public Servo depositor = null;
     //public DcMotor arm = null;
     public BNO055IMU imu = null;
     //public ColorSensor color = null; don't need these
@@ -49,6 +50,7 @@ public class HardwarePushturtl {
         rearLeftDrive = hwMap.get(DcMotor.class, "RL");
         rearRightDrive = hwMap.get(DcMotor.class, "RR");
         hook = hwMap.get(DcMotor.class, "HOOK");
+        depositor = hwMap.get(Servo.class, "DEPO");
         //arm = hwMap.get(DcMotor.class, "ARM");
         imu = hwMap.get(BNO055IMU.class, "IMU");
         //color = hwMap.get(ColorSensor.class, "CS");
