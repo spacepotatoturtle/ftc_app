@@ -55,23 +55,28 @@ public class AutonomousCode extends LinearOpMode {
 
         encoderDriver.encoderHook(0.6, 0, 30);
         sleep(500);
-        encoderDriver.encoderDrive(0.7, 6, -6, -6, 6, 6);
-        encoderDriver.encoderDrive(0.7, -17, -17, -17, -17, 100);
+        encoderDriver.encoderDrive(0.3, 6, -6, -6, 6, 30);
+        encoderDriver.encoderDrive(0.3, -17, -17, -17, -17, 30);
+        encoderDriver.encoderDrive(0.3, -2, 2, 2, -2, 30);
         if (NEAR_CRATER) { // it is on the cater rim, rotations are same for both sides
-            encoderDriver.encoderDrive(0.7, 45, -45, -45, 45, 100);
-            encoderDriver.encoderDrive(0.7, 33, -33, 33, -33, 100);
-            encoderDriver.encoderDrive(0.7, -40, -40, -40, -40, 100);
+            encoderDriver.encoderDrive(0.3, 48, -48, -48, 48, 30);
+            encoderDriver.encoderDrive(0.3, -34, 34, -34, 34, 30);
+            encoderDriver.encoderDrive(0.3, -6, 6, 6, -6, 30);
+            encoderDriver.encoderDrive(0.3, -40, -40, -40, -40, 30);
             // depot
             robot.depositor.setPosition(0.3);
+            sleep(300);
             robot.depositor.setPosition(1);
-            encoderDriver.encoderDrive(0.7, 80, 80, 80, 80, 100);
+            encoderDriver.encoderDrive(0.3, 78, 78, 78, 78, 30);
         } else { // it is near the depot
-            encoderDriver.encoderDrive(0.7, -40, -40, -40, -40, 100);
+            encoderDriver.encoderDrive(0.3, -40, -40, -40, -40, 30);
             // depot
             robot.depositor.setPosition(0.3);
+            sleep(300);
             robot.depositor.setPosition(1);
-            encoderDriver.encoderDrive(0.7, 11, -11, 11, -11, 100);
-            encoderDriver.encoderDrive(0.7, 84, 84, 84, 84, 100);
+            encoderDriver.encoderDrive(0.3, 12, -12, 12, -12, 30);
+            encoderDriver.encoderDrive(0.3, 4, -4, -4, 4, 30);
+            encoderDriver.encoderDrive(0.3, 78, 78, 78, 78, 30);
         }
 
 
