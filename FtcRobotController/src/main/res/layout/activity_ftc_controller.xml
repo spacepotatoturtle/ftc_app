@@ -86,6 +86,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <include layout="@layout/header"
            android:id="@+id/included_header"/>
 
+  <Switch
+      android:id="@+id/switch1"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Bill:"
+      android:textAppearance="@android:style/TextAppearance.SearchResult.Title" />
+
   <RelativeLayout
     android:id="@+id/RelativeLayout"
     android:layout_width="match_parent"
@@ -182,16 +189,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <!-- invisible except when programming mode is activated from the DS -->
     <TextView
-      android:id="@+id/textRemoteProgrammingMode"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:background="?attr/backgroundLight"
-      android:gravity="center"
-      android:textColor="?attr/textWhite"
-      android:textSize="40sp"
-      android:textStyle="bold"
-      android:visibility="invisible"
-      android:text="" />
+        android:id="@+id/textRemoteProgrammingMode"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/textOpMode"
+        android:layout_marginTop="-37dp"
+        android:background="?attr/backgroundLight"
+        android:gravity="center"
+        android:text=""
+        android:textColor="?attr/textWhite"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
 
   </RelativeLayout>
 
