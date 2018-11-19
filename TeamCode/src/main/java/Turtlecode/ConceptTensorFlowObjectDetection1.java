@@ -29,6 +29,8 @@
 
 package Turtlecode;
 
+import android.widget.Switch;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -38,6 +40,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcode.R;
+import android.os.Bundle;
+import android.view.View;
 
 /**
  * This 2018-2019 OpMode illustrates the basics of using the TensorFlow Object Detection API to
@@ -50,7 +55,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * is explained below.
  */
 @TeleOp(name = "Concept: TensorFlow Object Detection", group = "Concept")
-@Disabled
+//@Disabled
 public class ConceptTensorFlowObjectDetection1 extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
@@ -68,7 +73,7 @@ public class ConceptTensorFlowObjectDetection1 extends LinearOpMode {
      * Once you've obtained a license key, copy the string from the Vuforia web site
      * and paste it in to your code on the next line, between the double quotes.
      */
-    private static final String VUFORIA_KEY = " -- YOUR NEW VUFORIA KEY GOES HERE  --- ";
+    private static final String VUFORIA_KEY = "Aavx5Qz/////AAAAGcwMlzKgX0wGhaL/CWYlFeYtE7dnCKQ/AmzFYGtGHUG3ogKwS0lKfxLktmZubI0SFjkA0xBQx+lc6YrVsLxFiYPanQ0dDL5iHD/hvadlnV1tLcsDCZjLJebarCLU8doOAYoH/aN24ASjgMcsiGnLcgwCFtQGZFU3/8osQG6JYojfVlm52hJD5hGcOorVyHCnu0AWQbfgIHgAJPEy9IcMEjHPkniM0AlynU7CJhTmXOwqlxKsyRMaTFQZq7NRtenUS7Ug9Bva8mPa2MMb4bVURntfetUve8cMffYJOxr5iywNJzNXtpPJUP5yfbGcGRiKZa/DxOMHTfej1d9/8p9cT/btC52zrwmD058MqJ3F9P4B";
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
@@ -174,4 +179,10 @@ public class ConceptTensorFlowObjectDetection1 extends LinearOpMode {
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
     }
+    //R.layout.activity_ftc_controller;
+    // initiate a Switch
+    /*
+    Switch Bill = (Switch) View.findViewById(R.id.bill); // check current state of a Switch (true or false).
+    Boolean switchState = Bill.isChecked();
+    */
 }

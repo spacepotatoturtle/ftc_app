@@ -15,7 +15,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import static Turtlecode.AutonomousConfig.*;
 
-
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Autonomous", group ="AutonomousCode")
 public class AutonomousCode extends LinearOpMode {
     /**

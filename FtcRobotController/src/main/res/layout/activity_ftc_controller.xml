@@ -87,7 +87,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
            android:id="@+id/included_header"/>
 
   <Switch
-      android:id="@+id/switch1"
+      android:id="@+id/bill"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="Bill:"
