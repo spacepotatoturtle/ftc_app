@@ -18,9 +18,6 @@ public class New_Teleop extends LinearOpMode {
     double STRAFENESS_MULTIPLIER    = 1;
     double TURNYNESS_MULTIPLIER     = 0.7;
     double HOOKPOWER_MULTIPLIER     = 1;
-    double ARMPOWER_MULTIPLIER      = 0.7;
-    double COMBPOWER_MULTIPLIER     = 0.4;
-    double TRIGGERNESS = 0;
 
 
     @Override
@@ -34,13 +31,12 @@ public class New_Teleop extends LinearOpMode {
             double STRAFENESS  = gamepad1.left_stick_x * STRAFENESS_MULTIPLIER;
             double TURNYNESS   = gamepad1.right_stick_x * TURNYNESS_MULTIPLIER;
             double HOOKPOWER   = gamepad2.right_stick_y * HOOKPOWER_MULTIPLIER;
-            double ARMPOWER    = gamepad2.left_stick_y * ARMPOWER_MULTIPLIER;
 
             //robot.rearLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             //robot.rearRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             //robot.frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            //robot.frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            robot.hook.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            //robot.frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE;
+            //robot.hook.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             //robot.arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
             double RL = -FORWARDNESS - STRAFENESS - TURNYNESS;
@@ -58,17 +54,22 @@ public class New_Teleop extends LinearOpMode {
             //robot.arm.setPower(ARMPOWER);
 
             if (gamepad1.left_trigger > 0.5) {
-                //robot.clawLeft.setPosition(0.15);
+                robot.clawLeft.setPosition(0.15);
             } else {
-                //robot.clawLeft.setPosition(1);
+                robot.clawLeft.setPosition(1);
             }
 
             if (gamepad1.right_trigger > 0.5) {
-                //robot.clawRight.setPosition(1);
+                robot.clawRight.setPosition(1);
             } else {
-                //robot.clawRight.setPosition(0.2);
+                robot.clawRight.setPosition(0.2);
             }
 
+            if (gamepad1.dpad_down) {
+                robot.armLeft.setPosition(0);
+            } else {
+                robot.armLeft.setPosition(1);
+            }
             /*
             if (gamepad1.right_bumper) {
                 robot.comb.setPower(COMBPOWER_MULTIPLIER);

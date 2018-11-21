@@ -51,7 +51,7 @@ public class AlexINIT extends LinearOpMode {
         */
 
         encoderDriver.encoderHook(0.6, 5.5, 30);
-        robot.depositor.setPosition(1);
+
 
         telemetry.addData("Mission ", "Complete");
         telemetry.update();

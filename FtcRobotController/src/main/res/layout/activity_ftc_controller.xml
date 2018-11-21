@@ -90,7 +90,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       android:id="@+id/bill"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="Bill:"
+      android:text="@string/Bill"
       android:textAppearance="@android:style/TextAppearance.SearchResult.Title" />
 
   <RelativeLayout
