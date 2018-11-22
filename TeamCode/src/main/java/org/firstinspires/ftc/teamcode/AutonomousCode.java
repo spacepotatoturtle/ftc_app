@@ -1,21 +1,12 @@
-package Turtlecode;
-
-import android.app.Activity;
-import android.graphics.Color;
-import android.view.View;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
-import com.qualcomm.robotcore.hardware.NormalizedRGBA;
-import com.qualcomm.robotcore.hardware.SwitchableLight;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import static Turtlecode.AutonomousConfig.*;
+import static org.firstinspires.ftc.teamcode.AutonomousConfig.*;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Autonomous", group ="AutonomousCode")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Autonomous111", group ="AutonomousCode")
 public class AutonomousCode extends LinearOpMode {
     /**
      * Team 12547 robot variables

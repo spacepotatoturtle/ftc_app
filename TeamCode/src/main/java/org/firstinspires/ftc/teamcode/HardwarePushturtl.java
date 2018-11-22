@@ -1,4 +1,4 @@
-package Turtlecode;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -61,9 +61,8 @@ public class HardwarePushturtl {
         hook.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         armLeft.setPosition(0);
         //armRight.setPosition(0);
-        clawLeft.setPosition(0);
-        clawRight.setPosition(0);
-        clawRight.setPosition(0);
+        //clawLeft.setPosition(0);
+        //clawRight.setPosition(0);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;

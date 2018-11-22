@@ -1,4 +1,4 @@
-package Turtlecode;
+package org.firstinspires.ftc.teamcode;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -7,9 +7,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import static Turtlecode.AutonomousConfig.COUNTS_PER_INCH_HOOK;
-import static Turtlecode.AutonomousConfig.COUNTS_PER_INCH_WHEELS;
-import static Turtlecode.AutonomousConfig.REST_AFTER_ENCODER_RUN_MIL_SECONDS;
+import static org.firstinspires.ftc.teamcode.AutonomousConfig.COUNTS_PER_INCH_HOOK;
+import static org.firstinspires.ftc.teamcode.AutonomousConfig.COUNTS_PER_INCH_WHEELS;
+import static org.firstinspires.ftc.teamcode.AutonomousConfig.REST_AFTER_ENCODER_RUN_MIL_SECONDS;
 
 /**
  * Encapsulation of the encoder mode drive.

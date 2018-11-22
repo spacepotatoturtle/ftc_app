@@ -1,14 +1,13 @@
 
-package Turtlecode;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-@TeleOp(name="Things", group="PushbotPotato")
+@TeleOp(name="TELE-OP", group="PushbotPotato")
 public class New_Teleop extends LinearOpMode {
 
     HardwarePushturtl robot = new HardwarePushturtl();
@@ -54,15 +53,15 @@ public class New_Teleop extends LinearOpMode {
             //robot.arm.setPower(ARMPOWER);
 
             if (gamepad1.left_trigger > 0.5) {
-                robot.clawLeft.setPosition(0.15);
+                robot.clawLeft.setPosition(0.6);
             } else {
-                robot.clawLeft.setPosition(1);
+                robot.clawLeft.setPosition(0.5);
             }
 
             if (gamepad1.right_trigger > 0.5) {
-                robot.clawRight.setPosition(1);
+                robot.clawRight.setPosition(0.5);
             } else {
-                robot.clawRight.setPosition(0.2);
+                robot.clawRight.setPosition(0.6);
             }
 
             if (gamepad1.dpad_down) {
@@ -70,15 +69,6 @@ public class New_Teleop extends LinearOpMode {
             } else {
                 robot.armLeft.setPosition(1);
             }
-            /*
-            if (gamepad1.right_bumper) {
-                robot.comb.setPower(COMBPOWER_MULTIPLIER);
-            } else if (gamepad1.left_bumper) {
-                robot.comb.setPower(-COMBPOWER_MULTIPLIER);
-            } else {
-                robot.comb.setPower(0);
-            }
-            */
 
             telemetry.addData("Forwardness%3A", FORWARDNESS);
             telemetry.addData("Strafeness%3A", STRAFENESS);
@@ -87,13 +77,7 @@ public class New_Teleop extends LinearOpMode {
             telemetry.addData("RIGHT REAR", robot.rearRightDrive.getPower());
             telemetry.addData("LEFT FRONT", robot.frontLeftDrive.getPower());
             telemetry.addData("RIGHT FRONT", robot.frontRightDrive.getPower());
-            telemetry.addData("===[IMU VALUES]===", "");
-            telemetry.addData("test", robot.imu.getAcceleration());
-            telemetry.addData("===[ENCODER VALUES]===", "");
-            telemetry.addData("lf=", robot.frontLeftDrive.getCurrentPosition());
-            telemetry.addData("lr=", robot.rearLeftDrive.getCurrentPosition());
-            telemetry.addData("rf=", robot.frontRightDrive.getCurrentPosition());
-            telemetry.addData("rr=", robot.rearRightDrive.getCurrentPosition());
+            telemetry.addData("ArmLeft", robot.armLeft.getPosition());
             telemetry.update();
             sleep(25);
         }

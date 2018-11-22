@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package Turtlecode;
+package org.firstinspires.ftc.teamcode;
 
 import android.widget.Switch;
 

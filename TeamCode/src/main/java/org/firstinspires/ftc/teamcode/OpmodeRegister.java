@@ -29,7 +29,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-package org.firstinspires.ftc.robotcontroller.internal;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
@@ -37,10 +37,10 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
 import org.firstinspires.ftc.robotcontroller.external.samples.ConceptNullOp;
 
 /**
- * {@link FtcOpModeRegister} is responsible for registering opmodes for use in an FTC game.
+ * {@link OpmodeRegister} is responsible for registering opmodes for use in an FTC game.
  * @see #register(OpModeManager)
  */
-public class FtcOpModeRegister implements OpModeRegister {
+public class OpmodeRegister implements OpModeRegister {
 
     /**
      * {@link #register(OpModeManager)} is called by the SDK game in order to register
