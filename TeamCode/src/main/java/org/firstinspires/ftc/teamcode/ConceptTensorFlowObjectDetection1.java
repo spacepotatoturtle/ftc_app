@@ -179,10 +179,4 @@ public class ConceptTensorFlowObjectDetection1 extends LinearOpMode {
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
     }
-    //R.layout.activity_ftc_controller;
-    // initiate a Switch
-    /*
-    Switch Bill = (Switch) View.findViewById(R.id.bill); // check current state of a Switch (true or false).
-    Boolean switchState = Bill.isChecked();
-    */
 }

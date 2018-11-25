@@ -7,9 +7,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import static org.firstinspires.ftc.teamcode.AutonomousConfig.COUNTS_PER_INCH_HOOK;
-import static org.firstinspires.ftc.teamcode.AutonomousConfig.COUNTS_PER_INCH_WHEELS;
-import static org.firstinspires.ftc.teamcode.AutonomousConfig.REST_AFTER_ENCODER_RUN_MIL_SECONDS;
+import static org.firstinspires.ftc.teamcode.AutonomousValues.COUNTS_PER_INCH_HOOK;
+import static org.firstinspires.ftc.teamcode.AutonomousValues.COUNTS_PER_INCH_WHEELS;
+import static org.firstinspires.ftc.teamcode.AutonomousValues.REST_AFTER_ENCODER_RUN_MIL_SECONDS;
 
 /**
  * Encapsulation of the encoder mode drive.

@@ -4,13 +4,15 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-@TeleOp(name="TELE-OP", group="PushbotPotato")
-public class New_Teleop extends LinearOpMode {
+@TeleOp(name="Telepathic Turtle", group="THE TURTLE")
+public class TeleoperationCode extends LinearOpMode {
 
     HardwarePushturtl robot = new HardwarePushturtl();
+    FtcRobotControllerActivity activity = new FtcRobotControllerActivity();
 
     double MASTER_MULTIPLIER        = 0.4;
     double FORWARDNESS_MULTIPLIER   = 0.7;
@@ -50,7 +52,6 @@ public class New_Teleop extends LinearOpMode {
             robot.frontLeftDrive.setPower(MASTER_MULTIPLIER * FL / MAX);
             robot.frontRightDrive.setPower(MASTER_MULTIPLIER * FR / MAX);
             robot.hook.setPower(HOOKPOWER);
-            //robot.arm.setPower(ARMPOWER);
 
             if (gamepad1.left_trigger > 0.5) {
                 robot.clawLeft.setPosition(0.6);
@@ -64,10 +65,17 @@ public class New_Teleop extends LinearOpMode {
                 robot.clawRight.setPosition(0.6);
             }
 
+
             if (gamepad1.dpad_down) {
-                robot.armLeft.setPosition(0);
+                //robot.armLeft.setPosition(0);
             } else {
-                robot.armLeft.setPosition(1);
+                //robot.armLeft.setPosition(1);
+            }
+
+            if (activity.team_color) {
+                telemetry.addData("TEAM%3A", "BLUE");
+            } else {
+                telemetry.addData("TEAM%3A", "RED");
             }
 
             telemetry.addData("Forwardness%3A", FORWARDNESS);
@@ -77,7 +85,6 @@ public class New_Teleop extends LinearOpMode {
             telemetry.addData("RIGHT REAR", robot.rearRightDrive.getPower());
             telemetry.addData("LEFT FRONT", robot.frontLeftDrive.getPower());
             telemetry.addData("RIGHT FRONT", robot.frontRightDrive.getPower());
-            telemetry.addData("ArmLeft", robot.armLeft.getPosition());
             telemetry.update();
             sleep(25);
         }

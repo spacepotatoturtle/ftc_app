@@ -87,11 +87,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
            android:id="@+id/included_header"/>
 
   <Switch
-      android:id="@+id/bill"
+      android:id="@+id/teamColor"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/Bill"
-      android:textAppearance="@android:style/TextAppearance.SearchResult.Title" />
+      android:textAppearance="@android:style/TextAppearance.Medium.Inverse"
+      android:textOff="@string/red"
+      android:textOn="@string/blu" />
+
+  <Switch
+      android:id="@+id/craterDistance"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/distance_to_crater"
+      android:textAppearance="@android:style/TextAppearance.Medium.Inverse"
+      android:textOff="@string/near"
+      android:textOn="@string/far" />
 
   <RelativeLayout
     android:id="@+id/RelativeLayout"

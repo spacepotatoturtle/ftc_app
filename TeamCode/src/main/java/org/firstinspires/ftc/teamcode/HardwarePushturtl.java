@@ -18,7 +18,7 @@ public class HardwarePushturtl {
     public DcMotor rearLeftDrive = null;
     public DcMotor rearRightDrive = null;
     public DcMotor hook = null;
-    public Servo armLeft = null;
+    //public Servo armLeft = null;
     //public Servo armRight = null;
     public BNO055IMU imu = null;
     public Servo clawLeft = null;
@@ -44,7 +44,7 @@ public class HardwarePushturtl {
         rearLeftDrive = hwMap.get(DcMotor.class, "RL");
         rearRightDrive = hwMap.get(DcMotor.class, "RR");
         hook = hwMap.get(DcMotor.class, "HOOK");
-        armLeft = hwMap.get(Servo.class, "ARMPHIL");
+        //armLeft = hwMap.get(Servo.class, "ARMPHIL");
         //armRight = hwMap.get(Servo.class, "ARMPHIR");
         imu = hwMap.get(BNO055IMU.class, "IMU");
         clawLeft = hwMap.get(Servo.class, "CL");
@@ -59,7 +59,7 @@ public class HardwarePushturtl {
         rearLeftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rearRightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         hook.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        armLeft.setPosition(0);
+        //armLeft.setPosition(0);
         //armRight.setPosition(0);
         //clawLeft.setPosition(0);
         //clawRight.setPosition(0);

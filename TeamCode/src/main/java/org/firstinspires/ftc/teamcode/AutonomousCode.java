@@ -4,9 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import static org.firstinspires.ftc.teamcode.AutonomousConfig.*;
+import static org.firstinspires.ftc.teamcode.AutonomousValues.*;
+import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Autonomous111", group ="AutonomousCode")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Self-Sufficient Turtle", group ="THE TURTLE")
 public class AutonomousCode extends LinearOpMode {
     /**
      * Team 12547 robot variables
@@ -14,7 +15,7 @@ public class AutonomousCode extends LinearOpMode {
 
     /* Declare OpMode members. */
     private HardwarePushturtl robot = new HardwarePushturtl();   // Use a Pushbot's hardware
-
+    private FtcRobotControllerActivity ui = new FtcRobotControllerActivity();
     private EncoderDriver encoderDriver = new EncoderDriver(this, robot, telemetry);
     private PID_Shell pid_shell = new PID_Shell(this, robot, telemetry);
 
@@ -35,20 +36,22 @@ public class AutonomousCode extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        //pid_shell.pidLoop(0, 3, 100);
-        /*
-        runtime.reset();
-        while (runtime.seconds() < 1) {
-            robot.hook.setPower(1);
-        }
-        */
-
         encoderDriver.encoderHook(0.6, 0, 30);
         sleep(500);
         encoderDriver.encoderDrive(0.3, 6, -6, -6, 6, 30);
         encoderDriver.encoderDrive(0.3, -17, -17, -17, -17, 30);
         encoderDriver.encoderDrive(0.3, -2, 2, 2, -2, 30);
-        if (NEAR_CRATER) { // it is on the cater rim, rotations are same for both sides
+
+        if (ui.crater_distance) {
+            // If the robot is on the side further away from the crater
+            encoderDriver.encoderDrive(0.3, -40, -40, -40, -40, 30);
+            // depot
+            sleep(300);
+            encoderDriver.encoderDrive(0.3, 12, -12, 12, -12, 30);
+            encoderDriver.encoderDrive(0.3, 4, -4, -4, 4, 30);
+            encoderDriver.encoderDrive(0.3, 78, 78, 78, 78, 30);
+        } else {
+            // If the robot is on the closer side
             encoderDriver.encoderDrive(0.3, 48, -48, -48, 48, 30);
             encoderDriver.encoderDrive(0.3, -34, 34, -34, 34, 30);
             encoderDriver.encoderDrive(0.3, -6, 6, 6, -6, 30);
@@ -56,15 +59,7 @@ public class AutonomousCode extends LinearOpMode {
             // depot
             sleep(300);
             encoderDriver.encoderDrive(0.3, 78, 78, 78, 78, 30);
-        } else { // it is near the depot
-            encoderDriver.encoderDrive(0.3, -40, -40, -40, -40, 30);
-            // depot
-            sleep(300);
-            encoderDriver.encoderDrive(0.3, 12, -12, 12, -12, 30);
-            encoderDriver.encoderDrive(0.3, 4, -4, -4, 4, 30);
-            encoderDriver.encoderDrive(0.3, 78, 78, 78, 78, 30);
         }
-
 
         //while (robot.imu.getAngularOrientation().firstAngle < 90) {
         //robot.frontLeftDrive.setPower(-0.3);

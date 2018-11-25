@@ -1,13 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import static org.firstinspires.ftc.teamcode.AutonomousConfig.*;
 
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="AlexAutonomous111", group ="AutonomousCode")
