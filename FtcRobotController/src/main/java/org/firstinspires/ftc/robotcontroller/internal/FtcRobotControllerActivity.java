@@ -97,6 +97,7 @@ import com.qualcomm.robotcore.util.RobotLog;
 import com.qualcomm.robotcore.wifi.NetworkConnection;
 import com.qualcomm.robotcore.wifi.NetworkConnectionFactory;
 import com.qualcomm.robotcore.wifi.NetworkType;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.ftccommon.external.SoundPlayingRobotMonitor;
 import org.firstinspires.ftc.ftccommon.internal.FtcRobotControllerWatchdogService;
@@ -125,11 +126,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @SuppressWarnings("WeakerAccess")
 public class FtcRobotControllerActivity extends Activity
   {
-  public Switch teamColor = (Switch) findViewById(R.id.teamColor);
-  public Boolean team_color = teamColor.isChecked();
-  
-  public Switch craterDistance = (Switch) findViewById(R.id.craterDistance);
-  public Boolean crater_distance = craterDistance.isChecked();
 
   public static final String TAG = "RCActivity";
   public String getTag() { return TAG; }

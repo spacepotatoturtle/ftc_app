@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -18,6 +19,8 @@ public class HardwarePushturtl {
     public DcMotor rearLeftDrive = null;
     public DcMotor rearRightDrive = null;
     public DcMotor hook = null;
+    public DcMotor armPhi = null;
+    public DcMotor armMagnitude = null;
     //public Servo armLeft = null;
     //public Servo armRight = null;
     public BNO055IMU imu = null;
@@ -44,6 +47,8 @@ public class HardwarePushturtl {
         rearLeftDrive = hwMap.get(DcMotor.class, "RL");
         rearRightDrive = hwMap.get(DcMotor.class, "RR");
         hook = hwMap.get(DcMotor.class, "HOOK");
+        armPhi = hwMap.get(DcMotor.class, "PHI");
+        armMagnitude = hwMap.get(DcMotor.class, "EXT");
         //armLeft = hwMap.get(Servo.class, "ARMPHIL");
         //armRight = hwMap.get(Servo.class, "ARMPHIR");
         imu = hwMap.get(BNO055IMU.class, "IMU");
@@ -54,6 +59,9 @@ public class HardwarePushturtl {
         rearLeftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rearRightDrive.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         hook.setDirection(DcMotor.Direction.FORWARD);
+        armPhi.setDirection(DcMotor.Direction.FORWARD);
+        armPhi.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armMagnitude.setDirection(DcMotor.Direction.FORWARD);
         frontLeftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontRightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rearLeftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -61,8 +69,8 @@ public class HardwarePushturtl {
         hook.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //armLeft.setPosition(0);
         //armRight.setPosition(0);
-        //clawLeft.setPosition(0);
-        //clawRight.setPosition(0);
+        clawLeft.setPosition(0.5);
+        clawRight.setPosition(0.5);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;

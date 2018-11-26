@@ -7,11 +7,6 @@ public class AutonomousValues {
     public static final int     ONE_SECOND_IN_MIL                   = 1000;
 
     /**
-     * Set the team to the right color. BLUE or RED
-     */
-    //public static int           TEAM_COLOR;
-    //public static boolean       NEAR_CRATER                         = false;
-    /**
      * VuMark configurations
      */
 

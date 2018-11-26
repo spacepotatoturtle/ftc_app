@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.app.Activity;
+import android.content.Context;
+import android.widget.Switch;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import static org.firstinspires.ftc.teamcode.AutonomousValues.*;
-import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Self-Sufficient Turtle", group ="THE TURTLE")
 public class AutonomousCode extends LinearOpMode {
@@ -15,7 +18,6 @@ public class AutonomousCode extends LinearOpMode {
 
     /* Declare OpMode members. */
     private HardwarePushturtl robot = new HardwarePushturtl();   // Use a Pushbot's hardware
-    private FtcRobotControllerActivity ui = new FtcRobotControllerActivity();
     private EncoderDriver encoderDriver = new EncoderDriver(this, robot, telemetry);
     private PID_Shell pid_shell = new PID_Shell(this, robot, telemetry);
 
@@ -24,6 +26,10 @@ public class AutonomousCode extends LinearOpMode {
         // Initialize the robot
         initRobot();
         ElapsedTime runtime = new ElapsedTime();
+
+        Context context = hardwareMap.appContext;
+        int id = context.getResources().getIdentifier("craterDistance", "id", context.getPackageName());
+        Switch craterDistance = (Switch) (((Activity)context).findViewById(id));
 
         robot.frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -42,7 +48,7 @@ public class AutonomousCode extends LinearOpMode {
         encoderDriver.encoderDrive(0.3, -17, -17, -17, -17, 30);
         encoderDriver.encoderDrive(0.3, -2, 2, 2, -2, 30);
 
-        if (ui.crater_distance) {
+        if (craterDistance.isChecked()) {
             // If the robot is on the side further away from the crater
             encoderDriver.encoderDrive(0.3, -40, -40, -40, -40, 30);
             // depot

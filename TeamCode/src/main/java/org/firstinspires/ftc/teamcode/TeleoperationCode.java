@@ -1,30 +1,43 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import android.app.Activity;
+import android.content.Context;
+import android.widget.Switch;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+
+import org.firstinspires.ftc.teamcode.EncoderDriver;
 
 @TeleOp(name="Telepathic Turtle", group="THE TURTLE")
 public class TeleoperationCode extends LinearOpMode {
 
     HardwarePushturtl robot = new HardwarePushturtl();
-    FtcRobotControllerActivity activity = new FtcRobotControllerActivity();
+    EncoderDriver encoderDriver = new EncoderDriver(this, robot, telemetry);
 
     double MASTER_MULTIPLIER        = 0.4;
     double FORWARDNESS_MULTIPLIER   = 0.7;
     double STRAFENESS_MULTIPLIER    = 1;
     double TURNYNESS_MULTIPLIER     = 0.7;
     double HOOKPOWER_MULTIPLIER     = 1;
+    double ARM_ANGLE_MULTIPLIER     = 0.5;
 
 
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+        double position = 0;
+        encoderDriver.encoderArmAngle(1, position, 100);
         waitForStart();
+
+        Context context = hardwareMap.appContext;
+        int id = context.getResources().getIdentifier("teamColor", "id", context.getPackageName());
+        Switch teamColor = (Switch) (((Activity)context).findViewById(id));
+
         robot.imu.startAccelerationIntegration(new Position(), new Velocity(), 100);
         while (opModeIsActive()){
 
@@ -65,14 +78,22 @@ public class TeleoperationCode extends LinearOpMode {
                 robot.clawRight.setPosition(0.6);
             }
 
-
             if (gamepad1.dpad_down) {
-                //robot.armLeft.setPosition(0);
+                position += ARM_ANGLE_MULTIPLIER;
+            } else if (gamepad1.dpad_up) {
+                position -= ARM_ANGLE_MULTIPLIER;
+            }
+            encoderDriver.encoderArmAngle(1, position, 100);
+
+            if (gamepad1.dpad_left) {
+                robot.armMagnitude.setPower(0.4);
+            } else if (gamepad1.dpad_right) {
+                robot.armMagnitude.setPower(-0.4);
             } else {
-                //robot.armLeft.setPosition(1);
+                robot.armMagnitude.setPower(0);
             }
 
-            if (activity.team_color) {
+            if (teamColor.isChecked()) {
                 telemetry.addData("TEAM%3A", "BLUE");
             } else {
                 telemetry.addData("TEAM%3A", "RED");

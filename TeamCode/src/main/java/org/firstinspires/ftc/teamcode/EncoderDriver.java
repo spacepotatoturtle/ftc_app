@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import static org.firstinspires.ftc.teamcode.AutonomousValues.COUNTS_PER_INCH_HOOK;
 import static org.firstinspires.ftc.teamcode.AutonomousValues.COUNTS_PER_INCH_WHEELS;
+import static org.firstinspires.ftc.teamcode.AutonomousValues.COUNTS_PER_MOTOR_REV;
 import static org.firstinspires.ftc.teamcode.AutonomousValues.REST_AFTER_ENCODER_RUN_MIL_SECONDS;
 
 /**
@@ -16,12 +17,12 @@ import static org.firstinspires.ftc.teamcode.AutonomousValues.REST_AFTER_ENCODER
  */
 class EncoderDriver {
 
-    private LinearOpMode autonomousMode;
+    private LinearOpMode opMode;
     private HardwarePushturtl robot;
     private Telemetry telemetry;
 
-    EncoderDriver(LinearOpMode autonomousMode, HardwarePushturtl robot, Telemetry telemetry) {
-        this.autonomousMode = autonomousMode;
+    EncoderDriver(LinearOpMode opMode, HardwarePushturtl robot, Telemetry telemetry) {
+        this.opMode = opMode;
         this.robot = robot;
         this.telemetry = telemetry;
     }
@@ -43,7 +44,7 @@ class EncoderDriver {
         ElapsedTime runtime = new ElapsedTime();
 
         // Ensure that the opmode is still active
-        if (autonomousMode.opModeIsActive()) {
+        if (opMode.opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
             newLeftTarget = robot.frontLeftDrive.getCurrentPosition() + (int) (leftFrontInches * COUNTS_PER_INCH_WHEELS);
@@ -74,7 +75,7 @@ class EncoderDriver {
             // always end the motion as soon as possible.
             // However, if you require that BOTH motors have finished their moves before the robot continues
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
-            while (autonomousMode.opModeIsActive() &&
+            while (opMode.opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
                     (robot.frontLeftDrive.isBusy() && robot.frontRightDrive.isBusy() && robot.rearRightDrive.isBusy() && robot.rearLeftDrive.isBusy())) {
 
@@ -105,16 +106,18 @@ class EncoderDriver {
         }
     }
 
+    //Servo-like Behavior
     void encoderHook(double speed, double hookInches, double timeoutS) {
         int newHookTarget;
 
         ElapsedTime runtime = new ElapsedTime();
 
         // Ensure that the opmode is still active
-        if (autonomousMode.opModeIsActive()) {
+        if (opMode.opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newHookTarget = robot.rearRightDrive.getCurrentPosition() + (int) (hookInches * COUNTS_PER_INCH_HOOK);
+            // NOTE: The code is a modified encoderDriver that allows the motor to behave like a servo
+            newHookTarget = (int) (hookInches * COUNTS_PER_INCH_HOOK);
             robot.hook.setTargetPosition(newHookTarget);
 
             // Turn On RUN_TO_POSITION
@@ -130,7 +133,7 @@ class EncoderDriver {
             // always end the motion as soon as possible.
             // However, if you require that BOTH motors have finished their moves before the robot continues
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
-            while (autonomousMode.opModeIsActive() &&
+            while (opMode.opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
                     (robot.hook.isBusy())) {
                 robot.hook.setPower(speed);
@@ -152,13 +155,61 @@ class EncoderDriver {
         }
     }
 
+    //Servo-like Behavior
+    void encoderArmAngle(double speed, double armRadians, double timeoutS) {
+        int newAngleTarget;
+
+        ElapsedTime runtime = new ElapsedTime();
+
+        // Ensure that the opmode is still active
+        if (opMode.opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            newAngleTarget = (int) (armRadians * COUNTS_PER_MOTOR_REV);
+            robot.armPhi.setTargetPosition(newAngleTarget);
+
+            // Turn On RUN_TO_POSITION
+            robot.armPhi.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            while (opMode.opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (robot.armPhi.isBusy())) {
+                robot.armPhi.setPower(speed);
+            }
+
+            // Display it for the driver.
+            // constant value, not needed to see. telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
+            //telemetry.addData("Path2", "Running at %7d :%7d",
+            //robot.hook.getCurrentPosition());
+            //telemetry.update();
+
+            // Stop all motion;
+            robot.armPhi.setPower(0);
+
+            // Turn off RUN_TO_POSITION
+            robot.armPhi.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            // sleep(250);   // optional pause after each move
+        }
+    }
+
     // Apply zero power to the motors to stop.
     void stopMotorsAndRestShortly() {
         robot.frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.rearLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.rearRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        autonomousMode.sleep(REST_AFTER_ENCODER_RUN_MIL_SECONDS);
+        opMode.sleep(REST_AFTER_ENCODER_RUN_MIL_SECONDS);
     }
 
     void init() {
@@ -166,7 +217,7 @@ class EncoderDriver {
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here
          */
-        robot.init(autonomousMode.hardwareMap);
+        robot.init(opMode.hardwareMap);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Resetting Encoders");    //

@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="AlexAutonomous111", group ="AutonomousCode")
-public class AlexAutonomous extends LinearOpMode {
+public class AutonomousSnippetTesting extends LinearOpMode {
     /**
      * Team 12547 robot variables
      */
