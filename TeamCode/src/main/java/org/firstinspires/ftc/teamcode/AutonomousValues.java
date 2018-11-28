@@ -13,7 +13,11 @@ public class AutonomousValues {
     // Do not update
     public static final String  TAG = "Vuforia VuMark Sample";
     public static final String  VUFORIA_LICENSE_KEY =
-            "Ac91sD3/////AAAAGSPvdhZYS0r1sQZSgPIqSDw2+8qYbU3ItiAGMo3p6u968Veqoa+BQvQ9TCJcsympdrdBAg0Q/sk3ctnS1KMjB93g7FSSTmAIbCx58u4HkhnipznO/S1npXm/aw+9e1zvEuiWmC37k01vi6rcFQlGNpTf0wlvYLdDyYnXj1ZjWQahvgI71SVOnjUzUWiDqb5KqTC6y6tHy76fr0VUKNskaXMILMyFTtMa/cAT79d5pnrScfIKXruQ+iv763BnePgxHheNZSQplT0ospS5AXXnDOvfc7y9E08ec9RhE64Ld6hADeaLX0X8FbZ/N8BWP5zCZRIN741SlvU7KoqPjayk/P846lLAqmn9Mum2blZH9Fzz";
+            "Aavx5Qz/////AAAAGcwMlzKgX0wGhaL/CWYlFeYtE7dnCKQ/AmzFYGtGHUG3ogKwS0lKfxLktmZubI0SFjkA0xBQx+lc6YrVsLxFiYPanQ0dDL5iHD/hvadlnV1tLcsDCZjLJebarCLU8doOAYoH/aN24ASjgMcsiGnLcgwCFtQGZFU3/8osQG6JYojfVlm52hJD5hGcOorVyHCnu0AWQbfgIHgAJPEy9IcMEjHPkniM0AlynU7CJhTmXOwqlxKsyRMaTFQZq7NRtenUS7Ug9Bva8mPa2MMb4bVURntfetUve8cMffYJOxr5iywNJzNXtpPJUP5yfbGcGRiKZa/DxOMHTfej1d9/8p9cT/btC52zrwmD058MqJ3F9P4B";
+
+    public static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
+    public static final String LABEL_GOLD_MINERAL = "Gold Mineral";
+    public static final String LABEL_SILVER_MINERAL = "Silver Mineral";
 
     // 50 milli-seconds before each servo move, so that the servo does not move too fast and sudden.
     public static final int SLEEP_INTERVAL_BETWEEN_SERVO_MOVES_MS   = 50;
