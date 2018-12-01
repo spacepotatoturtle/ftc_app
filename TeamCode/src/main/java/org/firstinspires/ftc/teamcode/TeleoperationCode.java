@@ -90,6 +90,12 @@ public class TeleoperationCode extends LinearOpMode {
             }
             encoderDriver.encoderArmAngle(1, position, 100);
 
+            if (gamepad1.dpad_right && ARM_ANGLE_MULTIPLIER < 1) {
+                ARM_ANGLE_MULTIPLIER += 0.05;
+            } else if (gamepad1.dpad_left && ARM_ANGLE_MULTIPLIER > 0) {
+                ARM_ANGLE_MULTIPLIER -= 0.05;
+            }
+
             if (gamepad1.dpad_left) {
                 robot.armMagnitude.setPower(0.4);
             } else if (gamepad1.dpad_right) {
