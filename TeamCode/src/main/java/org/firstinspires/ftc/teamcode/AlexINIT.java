@@ -49,7 +49,7 @@ public class AlexINIT extends LinearOpMode {
         }
         */
 
-        encoderDriver.encoderHook(0.6, 5.5, 30);
+        encoderDriver.encoderHook(0.1, 0, 30);
 
 
         telemetry.addData("Mission ", "Complete");

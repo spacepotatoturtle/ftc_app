@@ -117,7 +117,7 @@ class EncoderDriver {
 
             // Determine new target position, and pass to motor controller
             // NOTE: The code is a modified encoderDriver that allows the motor to behave like a servo
-            newHookTarget = (int) (hookInches * COUNTS_PER_INCH_HOOK);
+            newHookTarget = (robot.hook.getCurrentPosition() + (int) (hookInches * COUNTS_PER_INCH_HOOK));
             robot.hook.setTargetPosition(newHookTarget);
 
             // Turn On RUN_TO_POSITION
