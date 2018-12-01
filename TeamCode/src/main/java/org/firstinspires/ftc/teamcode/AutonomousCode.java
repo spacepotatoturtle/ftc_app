@@ -133,7 +133,9 @@ public class AutonomousCode extends LinearOpMode {
             // If the robot is on the side further away from the crater
             encoderDriver.encoderDrive(0.3, -40, -40, -40, -40, 30);
             // depot
+            robot.flag.setPosition(1);
             sleep(300);
+            robot.flag.setPosition(0);
             encoderDriver.encoderDrive(0.3, 12, -12, 12, -12, 30);
             encoderDriver.encoderDrive(0.3, 4, -4, -4, 4, 30);
             encoderDriver.encoderDrive(0.3, 78, 78, 78, 78, 30);
@@ -144,7 +146,9 @@ public class AutonomousCode extends LinearOpMode {
             encoderDriver.encoderDrive(0.3, -6, 6, 6, -6, 30);
             encoderDriver.encoderDrive(0.3, -40, -40, -40, -40, 30);
             // depot
+            robot.flag.setPosition(1);
             sleep(300);
+            robot.flag.setPosition(0);
             encoderDriver.encoderDrive(0.3, 78, 78, 78, 78, 30);
         }
 
