@@ -71,7 +71,7 @@ public class AutonomousCode extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        encoderDriver.encoderHook(0.6, 0, 30);
+        //encoderDriver.encoderHook(0.6, 0, 30);
         sleep(500);
         encoderDriver.encoderDrive(0.3, 6, -6, -6, 6, 30);
         encoderDriver.encoderDrive(0.3, -17, -17, -17, -17, 30);

@@ -32,9 +32,9 @@ public class AlexINIT extends LinearOpMode {
         robot.rearRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.hook.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        float hsvValues[] = {0F, 0F, 0F};
+        /*float hsvValues[] = {0F, 0F, 0F};
         final float values[] = hsvValues;
-        final double SCALE_FACTOR = 255;
+        final double SCALE_FACTOR = 255;*/
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData(">", "Press Play to start");
@@ -49,7 +49,7 @@ public class AlexINIT extends LinearOpMode {
         }
         */
 
-        encoderDriver.encoderHook(0.1, 0, 30);
+        encoderDriver.encoderHook(0.1, 0.5, 30);
 
 
         telemetry.addData("Mission ", "Complete");

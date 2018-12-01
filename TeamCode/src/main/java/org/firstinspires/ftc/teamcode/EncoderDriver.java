@@ -108,7 +108,7 @@ class EncoderDriver {
 
     //Servo-like Behavior
     void encoderHook(double speed, double hookInches, double timeoutS) {
-        int newHookTarget;
+        double newHookTarget;
 
         ElapsedTime runtime = new ElapsedTime();
 
@@ -117,8 +117,8 @@ class EncoderDriver {
 
             // Determine new target position, and pass to motor controller
             // NOTE: The code is a modified encoderDriver that allows the motor to behave like a servo
-            newHookTarget = (robot.hook.getCurrentPosition() + (int) (hookInches * COUNTS_PER_INCH_HOOK));
-            robot.hook.setTargetPosition(newHookTarget);
+            newHookTarget = robot.hook.getCurrentPosition() + (int) hookInches * COUNTS_PER_INCH_HOOK;
+            robot.hook.setTargetPosition((int) newHookTarget);
 
             // Turn On RUN_TO_POSITION
             robot.hook.setMode(DcMotor.RunMode.RUN_TO_POSITION);
