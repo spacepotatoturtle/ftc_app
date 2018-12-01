@@ -26,6 +26,7 @@ public class HardwarePushturtl {
     public BNO055IMU imu = null;
     public Servo clawLeft = null;
     public Servo clawRight = null;
+    public Servo flag = null;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -54,6 +55,7 @@ public class HardwarePushturtl {
         imu = hwMap.get(BNO055IMU.class, "IMU");
         clawLeft = hwMap.get(Servo.class, "CL");
         clawRight = hwMap.get(Servo.class, "CR");
+        flag = hwMap.get(Servo.class, "FLAG");
         frontLeftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         frontRightDrive.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         rearLeftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
@@ -69,8 +71,9 @@ public class HardwarePushturtl {
         hook.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //armLeft.setPosition(0);
         //armRight.setPosition(0);
-        clawLeft.setPosition(0.5);
-        clawRight.setPosition(0.5);
+        clawLeft.setPosition(0);
+        clawRight.setPosition(0);
+        flag.setPosition(0.5);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;

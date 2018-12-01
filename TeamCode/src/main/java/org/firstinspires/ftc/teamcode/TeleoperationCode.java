@@ -12,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 import org.firstinspires.ftc.teamcode.EncoderDriver;
+import java.lang.Math;
 
 @TeleOp(name="Telepathic Turtle", group="THE TURTLE")
 public class TeleoperationCode extends LinearOpMode {
@@ -32,11 +33,15 @@ public class TeleoperationCode extends LinearOpMode {
         robot.init(hardwareMap);
         double position = 0;
         encoderDriver.encoderArmAngle(1, position, 100);
+        double flagtime = 0;
+        double flagposition = 0;
         waitForStart();
 
         Context context = hardwareMap.appContext;
-        int id = context.getResources().getIdentifier("teamColor", "id", context.getPackageName());
-        Switch teamColor = (Switch) (((Activity)context).findViewById(id));
+        int idColor = context.getResources().getIdentifier("teamColor", "id", context.getPackageName());
+        int idFlag = context.getResources().getIdentifier("flaggyFlag", "id", context.getPackageName());
+        Switch teamColor = (Switch) (((Activity)context).findViewById(idColor));
+        Switch flag = (Switch) (((Activity)context).findViewById(idFlag));
 
         robot.imu.startAccelerationIntegration(new Position(), new Velocity(), 100);
         while (opModeIsActive()){
@@ -66,14 +71,14 @@ public class TeleoperationCode extends LinearOpMode {
             robot.frontRightDrive.setPower(MASTER_MULTIPLIER * FR / MAX);
             robot.hook.setPower(HOOKPOWER);
 
-            if (gamepad1.left_trigger > 0.5) {
+            if (gamepad1.left_trigger < 0.5) {
                 robot.clawLeft.setPosition(0.6);
             } else {
-                robot.clawLeft.setPosition(0.5);
+                robot.clawLeft.setPosition(-1);
             }
 
-            if (gamepad1.right_trigger > 0.5) {
-                robot.clawRight.setPosition(0.5);
+            if (gamepad1.right_trigger < 0.5) {
+                robot.clawRight.setPosition(-0.6);
             } else {
                 robot.clawRight.setPosition(0.6);
             }
@@ -91,6 +96,11 @@ public class TeleoperationCode extends LinearOpMode {
                 robot.armMagnitude.setPower(-0.4);
             } else {
                 robot.armMagnitude.setPower(0);
+            }
+
+            if (flag.isChecked()) {
+                flagtime += 0.3927; // pi/8
+                robot.flag.setPosition(((Math.sin(flagtime)) / 9) + 0.4);
             }
 
             if (teamColor.isChecked()) {

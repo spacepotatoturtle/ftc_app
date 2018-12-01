@@ -104,6 +104,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       android:textOff="@string/near"
       android:textOn="@string/far" />
 
+  <Switch
+      android:id="@+id/flaggyFlag"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Flaggyness"
+      android:textAppearance="@android:style/TextAppearance.Medium.Inverse" />
+
   <RelativeLayout
     android:id="@+id/RelativeLayout"
     android:layout_width="match_parent"
