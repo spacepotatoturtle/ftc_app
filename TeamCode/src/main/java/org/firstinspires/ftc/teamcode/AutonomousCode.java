@@ -74,8 +74,10 @@ public class AutonomousCode extends LinearOpMode {
         //encoderDriver.encoderHook(0.6, 0, 30);
         sleep(500);
         encoderDriver.encoderDrive(0.3, 6, -6, -6, 6, 30);
-        encoderDriver.encoderDrive(0.3, -17, -17, -17, -17, 30);
-        encoderDriver.encoderDrive(0.3, -2, 2, 2, -2, 30);
+        encoderDriver.encoderDrive(0.3, -12, -12, -12, -12, 30);
+        encoderDriver.encoderDrive(0.3, 8.5, -8.5, -8.5, 8.5, 30);
+
+        int numShifts = 0; // Number of times the robot shifts right (from phone side) 14.5 inches
 
         /** Activate Tensor Flow Object Detection. */
         if (tfod != null) {
@@ -87,41 +89,11 @@ public class AutonomousCode extends LinearOpMode {
             // the last time that call was made.
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
             if (updatedRecognitions != null) {
-                telemetry.addData("# Object Detected", updatedRecognitions.size());
-                if (updatedRecognitions.size() == 3) {
-                    int goldMineralX = -1;
-                    int silverMineral1X = -1;
-                    int silverMineral2X = -1;
-                    for (Recognition recognition : updatedRecognitions) {
-                        if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                            goldMineralX = (int) recognition.getLeft();
-                        } else if (silverMineral1X == -1) {
-                            silverMineral1X = (int) recognition.getLeft();
-                        } else {
-                            silverMineral2X = (int) recognition.getLeft();
-                        }
-                    }
-                    if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
-                        if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
-                            telemetry.addData("Gold Mineral Position", "Left");
-                            encoderDriver.encoderDrive(0.3, 13, -13, -13, 13, 30);
-                            encoderDriver.encoderDrive(0.3, -20, -20, -20, -20, 30);
-                            encoderDriver.encoderDrive(0.3, 20, 20, 20, 20, 30);
-                            encoderDriver.encoderDrive(0.3, -13, 13, 13, -13, 30);
-                        } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
-                            telemetry.addData("Gold Mineral Position", "Right");
-                            encoderDriver.encoderDrive(0.3, -21, 21, 21, -21, 30);
-                            encoderDriver.encoderDrive(0.3, -20, -20, -20, -20, 30);
-                            encoderDriver.encoderDrive(0.3, 20, 20, 20, 20, 30);
-                            encoderDriver.encoderDrive(0.3, 21, -21, -21, 21, 30);
-                        } else {
-                            telemetry.addData("Gold Mineral Position", "Center");
-                            encoderDriver.encoderDrive(0.3, -20, -20, -20, -20, 30);
-                            encoderDriver.encoderDrive(0.3, 20, 20, 20, 20, 30);
-                        }
-                    }
+                while (numShifts < 2 && updatedRecognitions.size() == 1 && !updatedRecognitions.get(0).getLabel().equals(LABEL_GOLD_MINERAL)) {
+                    encoderDriver.encoderDrive(0.3, -14.5, 14.5, 14.5, -14.5, 30);
+                    updatedRecognitions = tfod.getUpdatedRecognitions();
+                    numShifts++;
                 }
-                telemetry.update();
             }
         }
 
@@ -129,27 +101,31 @@ public class AutonomousCode extends LinearOpMode {
             tfod.shutdown();
         }
 
+        encoderDriver.encoderDrive(0.3, -5, -5, -5, -5, 30);
         if (craterDistance.isChecked()) {
             // If the robot is on the side further away from the crater
-            encoderDriver.encoderDrive(0.3, -40, -40, -40, -40, 30);
+            encoderDriver.encoderDrive(0.3, -6, -6, -6, -6, 30);
+            encoderDriver.encoderDrive(0.3, -14.5 * (1 - numShifts), 14.5 * (1 - numShifts),
+                    14.5 * (1 - numShifts), -14.5 * (1 - numShifts), 30);
             // depot
-            robot.flag.setPosition(1);
-            sleep(300);
             robot.flag.setPosition(0);
-            encoderDriver.encoderDrive(0.3, 12, -12, 12, -12, 30);
-            encoderDriver.encoderDrive(0.3, 4, -4, -4, 4, 30);
-            encoderDriver.encoderDrive(0.3, 78, 78, 78, 78, 30);
+            sleep(300);
+            robot.flag.setPosition(0.5);
+            encoderDriver.encoderDrive(0.3, -12, 12, -12, 12, 30);
+            encoderDriver.encoderDrive(0.3, -12, 12, 12, -12, 30);
+            encoderDriver.encoderDrive(0.3, 72, 72, 72, 72, 30);
         } else {
             // If the robot is on the closer side
-            encoderDriver.encoderDrive(0.3, 48, -48, -48, 48, 30);
+            encoderDriver.encoderDrive(0.3, 5, 5, 5, 5, 30);
+            encoderDriver.encoderDrive(0.3, 16 + 14.5 * numShifts, -16 - 14.5 * numShifts,
+                    -16 - 14.5 * numShifts, 16 + 14.5 * numShifts, 30);
             encoderDriver.encoderDrive(0.3, -34, 34, -34, 34, 30);
-            encoderDriver.encoderDrive(0.3, -6, 6, 6, -6, 30);
-            encoderDriver.encoderDrive(0.3, -40, -40, -40, -40, 30);
+            encoderDriver.encoderDrive(0.3, -60, -60, -60, -60, 30);
             // depot
-            robot.flag.setPosition(1);
-            sleep(300);
             robot.flag.setPosition(0);
-            encoderDriver.encoderDrive(0.3, 78, 78, 78, 78, 30);
+            sleep(300);
+            robot.flag.setPosition(0.5);
+            encoderDriver.encoderDrive(0.3, 72, 72, 72, 72, 30);
         }
 
         //while (robot.imu.getAngularOrientation().firstAngle < 90) {

@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-import org.firstinspires.ftc.teamcode.EncoderDriver;
 import java.lang.Math;
 
 @TeleOp(name="Telepathic Turtle", group="THE TURTLE")
@@ -20,21 +19,20 @@ public class TeleoperationCode extends LinearOpMode {
     HardwarePushturtl robot = new HardwarePushturtl();
     EncoderDriver encoderDriver = new EncoderDriver(this, robot, telemetry);
 
-    double MASTER_MULTIPLIER        = 0.4;
+    double MASTER_MULTIPLIER        = 0.6;
     double FORWARDNESS_MULTIPLIER   = 0.7;
     double STRAFENESS_MULTIPLIER    = 1;
     double TURNYNESS_MULTIPLIER     = 0.7;
     double HOOKPOWER_MULTIPLIER     = 1;
     double ARM_ANGLE_MULTIPLIER     = 0.5;
+    double ARM_MAGNITUDE_MULTIPLIER = 0.8;
 
 
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-        double position = 0;
-        encoderDriver.encoderArmAngle(1, position, 100);
+        Boolean precisionMode = false;
         double flagtime = 0;
-        double flagposition = 0;
         waitForStart();
 
         Context context = hardwareMap.appContext;
@@ -45,6 +43,19 @@ public class TeleoperationCode extends LinearOpMode {
 
         robot.imu.startAccelerationIntegration(new Position(), new Velocity(), 100);
         while (opModeIsActive()){
+
+            if (gamepad2.y && precisionMode) {
+                precisionMode = false;
+            } else if (gamepad2.y && !precisionMode) {
+                precisionMode = true;
+            }
+
+            if (precisionMode) {
+                MASTER_MULTIPLIER = 0.2;
+                telemetry.addData("<b>PRECISION MODE IS ON</b>", "");
+            } else {
+                MASTER_MULTIPLIER = 0.6;
+            }
 
             double FORWARDNESS = gamepad1.left_stick_y * FORWARDNESS_MULTIPLIER;
             double STRAFENESS  = gamepad1.left_stick_x * STRAFENESS_MULTIPLIER;
@@ -71,41 +82,42 @@ public class TeleoperationCode extends LinearOpMode {
             robot.frontRightDrive.setPower(MASTER_MULTIPLIER * FR / MAX);
             robot.hook.setPower(HOOKPOWER);
 
-            if (gamepad1.left_trigger < 0.5) {
-                robot.clawLeft.setPosition(0.4);
+            if (gamepad2.right_trigger < 0.5) {
+                robot.clawRight.setPosition(0.67);
             } else {
-                robot.clawLeft.setPosition(-1);
+                robot.clawRight.setPosition(-1);
             }
 
-            if (gamepad1.right_trigger < 0.5) {
-                robot.clawRight.setPosition(-0.6);
+            if (gamepad2.left_trigger < 0.5) {
+                robot.clawLeft.setPosition(-0.87);
             } else {
-                robot.clawRight.setPosition(0.6);
+                robot.clawLeft.setPosition(0.6);
             }
 
             if (gamepad1.dpad_down) {
-                position += ARM_ANGLE_MULTIPLIER;
+                robot.armPhi.setPower(ARM_ANGLE_MULTIPLIER);
             } else if (gamepad1.dpad_up) {
-                position -= ARM_ANGLE_MULTIPLIER;
+                robot.armPhi.setPower(-ARM_ANGLE_MULTIPLIER);
+            } else {
+                robot.armPhi.setPower(0);
             }
-            encoderDriver.encoderArmAngle(1, position, 100);
 
-            if (gamepad1.dpad_right && ARM_ANGLE_MULTIPLIER < 1) {
+            if (gamepad2.dpad_up && ARM_ANGLE_MULTIPLIER < 1) {
                 ARM_ANGLE_MULTIPLIER += 0.05;
-            } else if (gamepad1.dpad_left && ARM_ANGLE_MULTIPLIER > 0) {
+            } else if (gamepad2.dpad_down && ARM_ANGLE_MULTIPLIER > 0) {
                 ARM_ANGLE_MULTIPLIER -= 0.05;
             }
 
             if (gamepad1.dpad_left) {
-                robot.armMagnitude.setPower(0.4);
+                robot.armMagnitude.setPower(ARM_MAGNITUDE_MULTIPLIER);
             } else if (gamepad1.dpad_right) {
-                robot.armMagnitude.setPower(-0.4);
+                robot.armMagnitude.setPower(-ARM_ANGLE_MULTIPLIER);
             } else {
                 robot.armMagnitude.setPower(0);
             }
 
             if (flag.isChecked()) {
-                flagtime += 0.3927; // pi/8
+                flagtime += 0.628318531; // pi/5
                 robot.flag.setPosition(((Math.sin(flagtime)) / 9) + 0.4);
             }
 

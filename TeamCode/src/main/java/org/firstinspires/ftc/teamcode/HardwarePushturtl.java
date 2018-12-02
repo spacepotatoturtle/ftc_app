@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -24,8 +23,8 @@ public class HardwarePushturtl {
     //public Servo armLeft = null;
     //public Servo armRight = null;
     public BNO055IMU imu = null;
-    public Servo clawLeft = null;
     public Servo clawRight = null;
+    public Servo clawLeft = null;
     public Servo flag = null;
 
     /* local OpMode members. */
@@ -53,8 +52,8 @@ public class HardwarePushturtl {
         //armLeft = hwMap.get(Servo.class, "ARMPHIL");
         //armRight = hwMap.get(Servo.class, "ARMPHIR");
         imu = hwMap.get(BNO055IMU.class, "IMU");
-        clawLeft = hwMap.get(Servo.class, "CL");
-        clawRight = hwMap.get(Servo.class, "CR");
+        clawRight = hwMap.get(Servo.class, "CL");
+        clawLeft = hwMap.get(Servo.class, "CR");
         flag = hwMap.get(Servo.class, "FLAG");
         frontLeftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         frontRightDrive.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
@@ -71,8 +70,8 @@ public class HardwarePushturtl {
         hook.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //armLeft.setPosition(0);
         //armRight.setPosition(0);
-        clawLeft.setPosition(0);
-        clawRight.setPosition(0);
+        //clawRight.setPosition(0);
+        //clawLeft.setPosition(0);
         flag.setPosition(0.5);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;

@@ -41,7 +41,7 @@ public class AutonomousSnippetTesting extends LinearOpMode {
         //encoderDriver.encoderDrive(0.1, -22, 22, -22, 22, 100);
         //encoderDriver.encoderDrive(0.1, -12, 12, 12, -12, 100);
 
-        encoderDriver.encoderHook(0.1, 1, 30);
+        encoderDriver.encoderHook(0.5, 5.5, 30);
 
         sleep(5000);
 
