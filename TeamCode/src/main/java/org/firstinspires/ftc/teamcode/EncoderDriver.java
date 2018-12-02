@@ -108,7 +108,7 @@ class EncoderDriver {
 
     //Servo-like Behavior
     void encoderHook(double speed, double hookInches, double timeoutS) {
-        double newHookTarget;
+        int newHookTarget;
 
         ElapsedTime runtime = new ElapsedTime();
 
@@ -117,15 +117,15 @@ class EncoderDriver {
 
             // Determine new target position, and pass to motor controller
             // NOTE: The code is a modified encoderDriver that allows the motor to behave like a servo
-            newHookTarget = robot.hook.getCurrentPosition() + (int) hookInches * COUNTS_PER_INCH_HOOK;
-            robot.hook.setTargetPosition((int) newHookTarget);
+            newHookTarget = (int) (hookInches * COUNTS_PER_INCH_HOOK);
+            robot.hook.setTargetPosition(newHookTarget);
 
             // Turn On RUN_TO_POSITION
             robot.hook.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();
-
+            robot.hook.setPower(Math.abs(speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -134,24 +134,26 @@ class EncoderDriver {
             // However, if you require that BOTH motors have finished their moves before the robot continues
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opMode.opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&
-                    (robot.hook.isBusy())) {
-                robot.hook.setPower(speed);
+                (runtime.seconds() < timeoutS) &&
+                (robot.hook.isBusy())) {
+                telemetry.addData("Target ", newHookTarget);
+                telemetry.addData("Current Position ", robot.hook.getCurrentPosition());
+                telemetry.update();
             }
 
-            // Display it for the driver.
-            // constant value, not needed to see. telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
-            //telemetry.addData("Path2", "Running at %7d :%7d",
+                // Display it for the driver.
+                // constant value, not needed to see. telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
+                //telemetry.addData("Path2", "Running at %7d :%7d",
                     //robot.hook.getCurrentPosition());
-            //telemetry.update();
+                //telemetry.update();
 
-            // Stop all motion;
+                // Stop all motion;
             robot.hook.setPower(0);
 
-            // Turn off RUN_TO_POSITION
+                // Turn off RUN_TO_POSITION
             robot.hook.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            // sleep(250);   // optional pause after each move
+                // sleep(250);   // optional pause after each move
         }
     }
 

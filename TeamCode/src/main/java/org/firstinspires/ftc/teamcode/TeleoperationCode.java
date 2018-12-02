@@ -72,7 +72,7 @@ public class TeleoperationCode extends LinearOpMode {
             robot.hook.setPower(HOOKPOWER);
 
             if (gamepad1.left_trigger < 0.5) {
-                robot.clawLeft.setPosition(0.6);
+                robot.clawLeft.setPosition(0.4);
             } else {
                 robot.clawLeft.setPosition(-1);
             }

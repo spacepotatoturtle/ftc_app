@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="AlexAutonomous111", group ="AutonomousCode")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Chicken Nugget", group ="AutonomousCode")
 public class AutonomousSnippetTesting extends LinearOpMode {
     /**
      * Team 12547 robot variables
@@ -28,28 +28,20 @@ public class AutonomousSnippetTesting extends LinearOpMode {
         robot.rearLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.rearRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        float hsvValues[] = {0F, 0F, 0F};
-        final float values[] = hsvValues;
-
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData(">", "Press Play to start");
         telemetry.update();
         waitForStart();
 
-        // while (runtime.seconds() < 1) {
-        //    robot.frontLeftDrive.setPower(0.1);
-        //    robot.frontRightDrive.setPower(0.1);
-        //    robot.rearLeftDrive.setPower(0.1);
-        //    robot.rearRightDrive.setPower(0.1);
-        //}
-
         //pid_shell.pidLoop(0, 3, 100);
-        //encoderDriver.encoderDrive(0.7, 84, 84, 84, 84, 100);
+        //encoderDriver.encoderDrive(0.7, 12, 12, 12, 12, 100);
         //encoderDriver.encoderDrive(0.7, -33, 33, -33, 33, 100);
         //encoderDriver.encoderDrive(0.7, 90, 90, 90, 90, 100);
         //encoderDriver.encoderDrive(0.1, 12, 12, 12, 12, 100);
         //encoderDriver.encoderDrive(0.1, -22, 22, -22, 22, 100);
         //encoderDriver.encoderDrive(0.1, -12, 12, 12, -12, 100);
+
+        encoderDriver.encoderHook(0.1, 1, 30);
 
         sleep(5000);
 
