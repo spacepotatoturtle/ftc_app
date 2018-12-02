@@ -23,6 +23,7 @@ public class TeleoperationCode extends LinearOpMode {
     double FORWARDNESS_MULTIPLIER   = 0.7;
     double STRAFENESS_MULTIPLIER    = 1;
     double TURNYNESS_MULTIPLIER     = 0.7;
+    double AUXILIARY_TURNYNESS_MULTIPLIER = 0.1;
     double HOOKPOWER_MULTIPLIER     = 1;
     double ARM_ANGLE_MULTIPLIER     = 0.5;
     double ARM_MAGNITUDE_MULTIPLIER = 0.8;
@@ -45,9 +46,9 @@ public class TeleoperationCode extends LinearOpMode {
         robot.imu.startAccelerationIntegration(new Position(), new Velocity(), 100);
         while (opModeIsActive()){
 
-            if (gamepad2.y && precisionMode) {
+            if (gamepad1.y && precisionMode) {
                 precisionMode = false;
-            } else if (gamepad2.a && !precisionMode) {
+            } else if (gamepad1.a && !precisionMode) {
                 precisionMode = true;
             }
 
@@ -60,8 +61,8 @@ public class TeleoperationCode extends LinearOpMode {
 
             double FORWARDNESS = gamepad1.left_stick_y * FORWARDNESS_MULTIPLIER;
             double STRAFENESS  = gamepad1.left_stick_x * STRAFENESS_MULTIPLIER;
-            double TURNYNESS   = gamepad1.right_stick_x * TURNYNESS_MULTIPLIER;
-            double HOOKPOWER   = gamepad2.right_stick_y * HOOKPOWER_MULTIPLIER;
+            double TURNYNESS   = (gamepad1.right_stick_x * TURNYNESS_MULTIPLIER) +
+                    (gamepad2.right_stick_x * AUXILIARY_TURNYNESS_MULTIPLIER);
 
             //robot.rearLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             //robot.rearRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -81,38 +82,43 @@ public class TeleoperationCode extends LinearOpMode {
             robot.rearRightDrive.setPower(MASTER_MULTIPLIER * RR / MAX);
             robot.frontLeftDrive.setPower(MASTER_MULTIPLIER * FL / MAX);
             robot.frontRightDrive.setPower(MASTER_MULTIPLIER * FR / MAX);
-            robot.hook.setPower(HOOKPOWER);
+
+            if (gamepad1.right_bumper) {
+                robot.hook.setPower(HOOKPOWER_MULTIPLIER);
+            } else if (gamepad1.right_trigger > 0.5) {
+                robot.hook.setPower(-HOOKPOWER_MULTIPLIER);
+            }
 
             if (gamepad2.right_trigger < 0.5) {
-                robot.clawRight.setPosition(0.67);
+                robot.clawRight.setPosition(0.9); //0.67
             } else {
-                robot.clawRight.setPosition(-1);
+                robot.clawRight.setPosition(-0.5); //-1
             }
 
             if (gamepad2.left_trigger < 0.5) {
-                robot.clawLeft.setPosition(-0.87);
+                robot.clawLeft.setPosition(-0.87); //-0.87
             } else {
-                robot.clawLeft.setPosition(0.6);
+                robot.clawLeft.setPosition(0.6); //0.6
             }
 
-            if (gamepad1.dpad_down) {
+            if (gamepad1.left_bumper) {
                 robot.armPhi.setPower(ARM_ANGLE_MULTIPLIER);
-            } else if (gamepad1.dpad_up) {
+            } else if (gamepad1.left_trigger > 0.5) {
                 robot.armPhi.setPower(-ARM_ANGLE_MULTIPLIER);
             } else {
                 robot.armPhi.setPower(0);
             }
 
-            if (gamepad2.dpad_up && ARM_ANGLE_MULTIPLIER < 1) {
+            if (gamepad2.x && ARM_ANGLE_MULTIPLIER < 1) {
                 ARM_ANGLE_MULTIPLIER += 0.05;
-            } else if (gamepad2.dpad_down && ARM_ANGLE_MULTIPLIER > 0) {
+            } else if (gamepad2.b && ARM_ANGLE_MULTIPLIER > 0) {
                 ARM_ANGLE_MULTIPLIER -= 0.05;
             }
 
-            if (gamepad1.dpad_left) {
+            if (gamepad2.dpad_up) {
                 robot.armMagnitude.setPower(ARM_MAGNITUDE_MULTIPLIER);
-            } else if (gamepad1.dpad_right) {
-                robot.armMagnitude.setPower(-ARM_ANGLE_MULTIPLIER);
+            } else if (gamepad1.dpad_down) {
+                robot.armMagnitude.setPower(-ARM_MAGNITUDE_MULTIPLIER);
             } else {
                 robot.armMagnitude.setPower(0);
             }

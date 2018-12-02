@@ -71,7 +71,7 @@ public class AutonomousCode extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        //encoderDriver.encoderHook(0.6, 5.5, 30); hook goes too far so temporary disable
+        //encoderDriver.encoderHook(0.6, 1, 30); hook goes too far so temporary disable
         sleep(500);
         encoderDriver.encoderDrive(0.3, 6, -6, -6, 6, 30);
 
