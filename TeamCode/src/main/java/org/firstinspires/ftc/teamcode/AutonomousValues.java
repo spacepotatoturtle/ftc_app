@@ -34,5 +34,5 @@ public class AutonomousValues {
     public static final double COUNTS_PER_INCH_WHEELS
             = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.14159265358979);
 
-    public static final double COUNTS_PER_INCH_HOOK    = 27.7 * COUNTS_PER_INCH_WHEELS;
+    public static final double COUNTS_PER_INCH_HOOK    = 18.4 * COUNTS_PER_INCH_WHEELS;
 }

@@ -23,9 +23,9 @@ public class TeleoperationCode extends LinearOpMode {
     double FORWARDNESS_MULTIPLIER   = 0.7;
     double STRAFENESS_MULTIPLIER    = 1;
     double TURNYNESS_MULTIPLIER     = 0.7;
-    double AUXILIARY_TURNYNESS_MULTIPLIER = 0.1;
+    double AUXILIARY_TURNYNESS_MULTIPLIER = 0.02;
     double HOOKPOWER_MULTIPLIER     = 1;
-    double ARM_ANGLE_MULTIPLIER     = 0.5;
+    double ARM_ANGLE_MULTIPLIER     = 0.8;
     double ARM_MAGNITUDE_MULTIPLIER = 0.8;
 
 
@@ -87,16 +87,18 @@ public class TeleoperationCode extends LinearOpMode {
                 robot.hook.setPower(HOOKPOWER_MULTIPLIER);
             } else if (gamepad1.right_trigger > 0.5) {
                 robot.hook.setPower(-HOOKPOWER_MULTIPLIER);
+            } else {
+                robot.hook.setPower(0);
             }
 
             if (gamepad2.right_trigger < 0.5) {
-                robot.clawRight.setPosition(0.9); //0.67
+                robot.clawRight.setPosition(0.92); //0.67
             } else {
                 robot.clawRight.setPosition(-0.5); //-1
             }
 
             if (gamepad2.left_trigger < 0.5) {
-                robot.clawLeft.setPosition(-0.87); //-0.87
+                robot.clawLeft.setPosition(-0.9); //-0.87
             } else {
                 robot.clawLeft.setPosition(0.6); //0.6
             }
@@ -108,16 +110,18 @@ public class TeleoperationCode extends LinearOpMode {
             } else {
                 robot.armPhi.setPower(0);
             }
+/*
 
             if (gamepad2.x && ARM_ANGLE_MULTIPLIER < 1) {
                 ARM_ANGLE_MULTIPLIER += 0.05;
             } else if (gamepad2.b && ARM_ANGLE_MULTIPLIER > 0) {
                 ARM_ANGLE_MULTIPLIER -= 0.05;
             }
+*/
 
             if (gamepad2.dpad_up) {
                 robot.armMagnitude.setPower(ARM_MAGNITUDE_MULTIPLIER);
-            } else if (gamepad1.dpad_down) {
+            } else if (gamepad2.dpad_down) {
                 robot.armMagnitude.setPower(-ARM_MAGNITUDE_MULTIPLIER);
             } else {
                 robot.armMagnitude.setPower(0);

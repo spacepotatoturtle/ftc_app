@@ -71,14 +71,14 @@ public class AutonomousCode extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        //encoderDriver.encoderHook(0.6, 1, 30); hook goes too far so temporary disable
+        encoderDriver.encoderHook(0.6, 0, 30);
         sleep(500);
         encoderDriver.encoderDrive(0.3, 6, -6, -6, 6, 30);
 
-        int numShifts = 0; // Number of times the robot shifts right (from phone side) 14.5 inches
+        int numShifts = 1; // Number of times the robot shifts right (from phone side) 14.5 inches
 
         /** Activate Tensor Flow Object Detection. */
-        if (tfod != null) {
+        /*if (tfod != null) {
             tfod.activate();
             // getUpdatedRecognitions() will return null if no new information is available since
             // the last time that call was made.
@@ -121,36 +121,39 @@ public class AutonomousCode extends LinearOpMode {
                 sleep(60000);
                 tfod.shutdown();
             }
-        }
+        } */
 
-        encoderDriver.encoderDrive(0.3, -12, -12, -12, -12, 30);
-        encoderDriver.encoderDrive(0.3, 8.5, -8.5, -8.5, 8.5, 30);
-        encoderDriver.encoderDrive(0.3, -14.5 * numShifts, 14.5 * numShifts,
-                14.5 * numShifts, -14.5 * numShifts, 30);
+        encoderDriver.encoderDrive(0.3, -18, -18, -18, -18, 30);
+        //encoderDriver.encoderDrive(0.3, 8.5, -8.5, -8.5, 8.5, 30);
+        //encoderDriver.encoderDrive(0.3, -14.5 * numShifts, 14.5 * numShifts,
+                //14.5 * numShifts, -14.5 * numShifts, 30);
+        encoderDriver.encoderDrive(0.3,-6,6,6, -6,30);
         encoderDriver.encoderDrive(0.3, -5, -5, -5, -5, 30);
         if (craterDistance.isChecked()) {
             // If the robot is on the side further away from the crater
-            encoderDriver.encoderDrive(0.3, -6, -6, -6, -6, 30);
+            encoderDriver.encoderDrive(0.3, -36, -36, -36, -36, 30);
             encoderDriver.encoderDrive(0.3, -14.5 * (1 - numShifts), 14.5 * (1 - numShifts),
                     14.5 * (1 - numShifts), -14.5 * (1 - numShifts), 30);
             // depot
-            robot.flag.setPosition(0);
-            sleep(300);
-            robot.flag.setPosition(0.5);
-            encoderDriver.encoderDrive(0.3, -12, 12, -12, 12, 30);
-            encoderDriver.encoderDrive(0.3, -12, 12, 12, -12, 30);
-            encoderDriver.encoderDrive(0.3, 72, 72, 72, 72, 30);
+            robot.flag.setPosition(0.6);
+            sleep(2000);
+            //robot.flag.setPosition(0);
+            encoderDriver.encoderDrive(0.3, 12, 12, 12, 12, 30);
+            encoderDriver.encoderDrive(0.3, 12, -12, 12, -12, 30);
+            encoderDriver.encoderDrive(0.3, 24, -24, -24, 24, 30);
+            encoderDriver.encoderDrive(0.3, 70, 70, 70, 70, 30);
         } else {
             // If the robot is on the closer side
             encoderDriver.encoderDrive(0.3, 5, 5, 5, 5, 30);
-            encoderDriver.encoderDrive(0.3, 16 + 14.5 * numShifts, -16 - 14.5 * numShifts,
-                    -16 - 14.5 * numShifts, 16 + 14.5 * numShifts, 30);
+            encoderDriver.encoderDrive(0.3, 24 + 14.5 * numShifts, -24 - 14.5 * numShifts,
+                    -24 - 14.5 * numShifts, 24 + 14.5 * numShifts, 30);
             encoderDriver.encoderDrive(0.3, -34, 34, -34, 34, 30);
-            encoderDriver.encoderDrive(0.3, -60, -60, -60, -60, 30);
+            encoderDriver.encoderDrive(0.3, -24, 24, 24, -24, 30);
+            encoderDriver.encoderDrive(0.3, -52, -52, -52, -52, 30);
             // depot
-            robot.flag.setPosition(0);
+            robot.flag.setPosition(0.6);
             sleep(300);
-            robot.flag.setPosition(0.5);
+            //robot.flag.setPosition(0);
             encoderDriver.encoderDrive(0.3, 72, 72, 72, 72, 30);
         }
 

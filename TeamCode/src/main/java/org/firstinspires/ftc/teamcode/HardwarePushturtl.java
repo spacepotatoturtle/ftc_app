@@ -72,7 +72,7 @@ public class HardwarePushturtl {
         //armRight.setPosition(0);
         //clawRight.setPosition(0);
         //clawLeft.setPosition(0);
-        flag.setPosition(0.5);
+        flag.setPosition(0);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
