@@ -32,6 +32,7 @@ public class TeleoperationCode extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
         Boolean precisionMode = false;
+        Boolean flagMode = false;
         double flagtime = 0;
         waitForStart();
 
@@ -46,13 +47,13 @@ public class TeleoperationCode extends LinearOpMode {
 
             if (gamepad2.y && precisionMode) {
                 precisionMode = false;
-            } else if (gamepad2.y && !precisionMode) {
+            } else if (gamepad2.a && !precisionMode) {
                 precisionMode = true;
             }
 
             if (precisionMode) {
-                MASTER_MULTIPLIER = 0.2;
-                telemetry.addData("<b>PRECISION MODE IS ON</b>", "");
+                MASTER_MULTIPLIER = 0.25;
+                telemetry.addData("----------PRECISION MODE----------", "ON");
             } else {
                 MASTER_MULTIPLIER = 0.6;
             }
@@ -116,7 +117,13 @@ public class TeleoperationCode extends LinearOpMode {
                 robot.armMagnitude.setPower(0);
             }
 
-            if (flag.isChecked()) {
+            if (gamepad2.x && flagMode) {
+                flagMode = false;
+            } else if (gamepad2.b && !flagMode) {
+                flagMode = true;
+            }
+
+            if (flag.isChecked() && flagMode) {
                 flagtime += 0.628318531; // pi/5
                 robot.flag.setPosition(((Math.sin(flagtime)) / 9) + 0.4);
             }

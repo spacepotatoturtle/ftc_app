@@ -71,7 +71,7 @@ public class AutonomousCode extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        //encoderDriver.encoderHook(0.6, 0, 30);
+        encoderDriver.encoderHook(0.6, 5.5, 30);
         sleep(500);
         encoderDriver.encoderDrive(0.3, 6, -6, -6, 6, 30);
         encoderDriver.encoderDrive(0.3, -12, -12, -12, -12, 30);
@@ -88,12 +88,11 @@ public class AutonomousCode extends LinearOpMode {
             // getUpdatedRecognitions() will return null if no new information is available since
             // the last time that call was made.
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-            if (updatedRecognitions != null) {
-                while (numShifts < 2 && updatedRecognitions.size() == 1 && !updatedRecognitions.get(0).getLabel().equals(LABEL_GOLD_MINERAL)) {
-                    encoderDriver.encoderDrive(0.3, -14.5, 14.5, 14.5, -14.5, 30);
-                    updatedRecognitions = tfod.getUpdatedRecognitions();
-                    numShifts++;
-                }
+            while (numShifts < 2 && updatedRecognitions != null && updatedRecognitions.size() == 1 &&
+                        !updatedRecognitions.get(0).getLabel().equals(LABEL_GOLD_MINERAL)) {
+                encoderDriver.encoderDrive(0.3, -14.5, 14.5, 14.5, -14.5, 30);
+                updatedRecognitions = tfod.getUpdatedRecognitions();
+                numShifts++;
             }
         }
 
