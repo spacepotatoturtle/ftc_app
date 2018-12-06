@@ -13,6 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.firstinspires.ftc.teamcode.AutonomousValues.*;
@@ -74,59 +75,52 @@ public class AutonomousCode extends LinearOpMode {
         encoderDriver.encoderHook(0.6, 0, 30);
         sleep(500);
         encoderDriver.encoderDrive(0.3, 6, -6, -6, 6, 30);
+        encoderDriver.encoderDrive(0.3, -18, -18, -18, -18, 30);
+        encoderDriver.encoderDrive(0.3, 8.5, -8.5, -8.5, 8.5, 30);
 
-        int numShifts = 1; // Number of times the robot shifts right (from phone side) 14.5 inches
+        int numShifts; // Number of times the robot shifts right (from phone side) based on the orientation of the minerals
 
         /** Activate Tensor Flow Object Detection. */
-        /*if (tfod != null) {
-            tfod.activate();
+
+        ArrayList<Double> Minerals = new ArrayList<>();
+
+        if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
             // the last time that call was made.
-            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-            if (updatedRecognitions != null) {
-                telemetry.addData("# Object Detected", updatedRecognitions.size());
-                if (updatedRecognitions.size() == 2) {
-                    int goldMineralX = -1;
-                    int silverMineral1X = -1;
-                    int silverMineral2X = -1;
-                    for (Recognition recognition : updatedRecognitions) {
-                        if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                            goldMineralX = (int) recognition.getLeft();
-                        } else if (silverMineral1X == -1) {
-                            silverMineral1X = (int) recognition.getLeft();
-                        } else {
-                            silverMineral2X = (int) recognition.getLeft();
+            for (int number_of_checks = 1; number_of_checks <= 3;){
+                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                if (updatedRecognitions != null) {
+                    telemetry.addData("# Object Detected", updatedRecognitions.size());
+                    if (updatedRecognitions.size() == 1) {
+                        double Mineral = 0;
+                        for (Recognition recognition : updatedRecognitions) {
+                            if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
+                                Mineral = (double) recognition.getConfidence();
+                                telemetry.addData("Gold, Confidence: ", recognition.getConfidence());
+                            } else if (recognition.getLabel().equals(LABEL_SILVER_MINERAL)) {
+                                Mineral = -((double) recognition.getConfidence());
+                                telemetry.addData("Silver, Confidence: ", recognition.getConfidence());
+                            }
                         }
+                        Minerals.add(Mineral);
+                        encoderDriver.encoderDrive(0.3, -14.5, 14.5, 14.5, -14.5, 30);
                     }
-                    if (silverMineral2X == -1 && silverMineral1X > goldMineralX) {
-                        silverMineral2X = silverMineral1X + 15;
-                    } else if (silverMineral2X == -1 && goldMineralX > silverMineral1X) {
-                        silverMineral2X = goldMineralX + 15;
-                    } else {
-                        goldMineralX = silverMineral2X + 15;
-                    }
-                    if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
-                        if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
-                            telemetry.addData("Gold Mineral Position", "Left");
-                        } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
-                            telemetry.addData("Gold Mineral Position", "Right");
-                            numShifts = 2;
-                        } else {
-                            telemetry.addData("Gold Mineral Position", "Center");
-                            numShifts = 1;
-                        }
-                    }
+                    telemetry.update();
                 }
-                telemetry.update();
-                sleep(60000);
-                tfod.shutdown();
+                number_of_checks ++;
             }
-        } */
+        }
 
-        encoderDriver.encoderDrive(0.3, -18, -18, -18, -18, 30);
-        //encoderDriver.encoderDrive(0.3, 8.5, -8.5, -8.5, 8.5, 30);
-        //encoderDriver.encoderDrive(0.3, -14.5 * numShifts, 14.5 * numShifts,
-                //14.5 * numShifts, -14.5 * numShifts, 30);
+        if (Minerals.get(1) > Minerals.get(2) && Minerals.get(1) > Minerals.get(3)) {
+            numShifts = 0;
+        } else if (Minerals.get(2) > Minerals.get(1) && Minerals.get(1) > Minerals.get(3)) {
+            numShifts = 1;
+        } else {
+            numShifts = 2;
+        }
+
+        encoderDriver.encoderDrive(0.3, -14.5 * numShifts, 14.5 * numShifts,
+                14.5 * numShifts, -14.5 * numShifts, 30);
         encoderDriver.encoderDrive(0.3,-6,6,6, -6,30);
         encoderDriver.encoderDrive(0.3, -5, -5, -5, -5, 30);
         if (craterDistance.isChecked()) {
