@@ -66,7 +66,7 @@ public class HardwarePushturtl {
         rearRightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         hook.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intake.setPower(0);
-        release.setPosition(0);
+        release.setPosition(0.65);
         flag.setPosition(0);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;

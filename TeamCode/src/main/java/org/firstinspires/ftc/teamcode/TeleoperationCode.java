@@ -120,14 +120,14 @@ public class TeleoperationCode extends LinearOpMode {
             }
 
             if (gamepad2.x) {
-                robot.release.setPosition(0.4);
+                robot.release.setPosition(1);
             } else {
-                robot.release.setPosition(0);
+                robot.release.setPosition(0.65);
             }
 
-            if (gamepad2.x && flagMode) {
+            if (gamepad1.x && flagMode) {
                 flagMode = false;
-            } else if (gamepad2.b && !flagMode) {
+            } else if (gamepad1.b && !flagMode) {
                 flagMode = true;
             }
 
