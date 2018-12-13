@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -22,6 +23,15 @@ class PID_Shell {
     private HardwarePushturtl robot;
     private Telemetry telemetry;
 
+    double value;
+    double err;
+    double errP = 0;
+    double errS = 0;
+    double P;
+    double D;
+    double I;
+    double correction;
+
     PID_Shell(LinearOpMode autonomousMode, HardwarePushturtl robot, Telemetry telemetry) {
 
         this.autonomousMode = autonomousMode;
@@ -30,61 +40,25 @@ class PID_Shell {
 
     }
 
-    void pidLoop(double angleTarget, double seconds, double precision) {
+    void pidLoop(DcMotor motor, double target, double updateTime, double initPower, double kP, double kD, double kI) {
+
         if (autonomousMode.opModeIsActive()) {
 
-            ElapsedTime runtime = new ElapsedTime();
+            motor.setPower(initPower);
 
-            double kP = 0.3;
-            double kD = 0;
-            double kI = 0;
+            value = motor.getCurrentPosition();
+            err = target - value;
+            errS = errS + err;
 
-            double angle;
-            double err;
-            double errP = 0;
-            double errS = 0;
-            double P;
-            double D;
-            double I;
-            double correction;
+            P = kP * err;
+            D = kD * (err - errP) / updateTime;
+            I = kI * errS * updateTime;
+            correction = P + D + I;
+            motor.setPower(motor.getPower() + correction);
 
-            robot.rearLeftDrive.setPower(0.3);
-            robot.rearRightDrive.setPower(0.3);
-            robot.frontLeftDrive.setPower(0.3);
-            robot.frontRightDrive.setPower(0.3);
+            errP = target - value;
 
-            runtime.reset();
-
-            while (autonomousMode.opModeIsActive() &&
-                    (runtime.seconds() < seconds) /*&&
-                    (robot.frontLeftDrive.isBusy() && robot.frontRightDrive.isBusy() && robot.rearRightDrive.isBusy() && robot.rearLeftDrive.isBusy())*/) {
-
-                angle = robot.imu.getAngularOrientation().firstAngle;
-                err = angleTarget - angle;
-                errS = errS + err;
-
-                P = kP * err;
-                D = kD * (err - errP) / precision;
-                I = kI * errS * precision;
-                correction = P + D + I;
-
-                robot.rearLeftDrive.setPower(robot.rearLeftDrive.getPower() - correction);
-                robot.rearRightDrive.setPower(robot.rearRightDrive.getPower() + correction);
-                robot.frontLeftDrive.setPower(robot.frontLeftDrive.getPower() - correction);
-                robot.frontRightDrive.setPower(robot.frontRightDrive.getPower() + correction);
-
-                errP = angleTarget - angle;
-
-                telemetry.addData("Angle Error:", robot.imu.getAngularOrientation());
-                telemetry.update();
-
-                autonomousMode.sleep((long) precision);
-            }
-
-            robot.rearLeftDrive.setPower(0);
-            robot.rearRightDrive.setPower(0);
-            robot.frontLeftDrive.setPower(0);
-            robot.frontRightDrive.setPower(0);
+            telemetry.addData("Error:", err);
         }
     }
 }

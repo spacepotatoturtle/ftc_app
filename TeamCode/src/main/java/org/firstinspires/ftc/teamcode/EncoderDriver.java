@@ -35,7 +35,7 @@ class EncoderDriver {
      *  2) Move runs out of time
      *  3) Driver stops the opmode running.
      */
-    void encoderDrive(double speed, double leftFrontInches, double rightFrontInches, double leftRearInches, double rightRearInches, double timeoutS) {
+    void encoderDrive(double speed, String type, double Inches, double timeoutS) {
         int newLeftTarget;
         int newRightTarget;
         int newLeftBackTarget;
@@ -47,10 +47,29 @@ class EncoderDriver {
         if (opMode.opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftTarget = robot.frontLeftDrive.getCurrentPosition() + (int) (leftFrontInches * COUNTS_PER_INCH_WHEELS);
-            newRightTarget = robot.frontRightDrive.getCurrentPosition() + (int) (rightFrontInches * COUNTS_PER_INCH_WHEELS);
-            newLeftBackTarget = robot.rearLeftDrive.getCurrentPosition() + (int) (leftRearInches * COUNTS_PER_INCH_WHEELS);
-            newRightBackTarget = robot.rearRightDrive.getCurrentPosition() + (int) (rightRearInches * COUNTS_PER_INCH_WHEELS);
+            if (type.equals("Forward")) {
+                newLeftTarget = robot.frontLeftDrive.getCurrentPosition() + (int) (Inches * COUNTS_PER_INCH_WHEELS);
+                newRightTarget = robot.frontRightDrive.getCurrentPosition() + (int) (Inches * COUNTS_PER_INCH_WHEELS);
+                newLeftBackTarget = robot.rearLeftDrive.getCurrentPosition() + (int) (Inches * COUNTS_PER_INCH_WHEELS);
+                newRightBackTarget = robot.rearRightDrive.getCurrentPosition() + (int) (Inches * COUNTS_PER_INCH_WHEELS);
+            } else if (type.equals("Strafe")) {
+                newLeftTarget = robot.frontLeftDrive.getCurrentPosition() + (int) (Inches * COUNTS_PER_INCH_WHEELS);
+                newRightTarget = robot.frontRightDrive.getCurrentPosition() + (int) (-Inches * COUNTS_PER_INCH_WHEELS);
+                newLeftBackTarget = robot.rearLeftDrive.getCurrentPosition() + (int) (-Inches * COUNTS_PER_INCH_WHEELS);
+                newRightBackTarget = robot.rearRightDrive.getCurrentPosition() + (int) (Inches * COUNTS_PER_INCH_WHEELS);
+            } else if (type.equals("Turn")) {
+                newLeftTarget = robot.frontLeftDrive.getCurrentPosition() + (int) (Inches * COUNTS_PER_INCH_WHEELS);
+                newRightTarget = robot.frontRightDrive.getCurrentPosition() + (int) (-Inches * COUNTS_PER_INCH_WHEELS);
+                newLeftBackTarget = robot.rearLeftDrive.getCurrentPosition() + (int) (Inches * COUNTS_PER_INCH_WHEELS);
+                newRightBackTarget = robot.rearRightDrive.getCurrentPosition() + (int) (-Inches * COUNTS_PER_INCH_WHEELS);
+            } else {
+                telemetry.addData("ERROR", "WRONG TYPE FOR ENCODERDRIVER");
+                newLeftTarget = robot.frontLeftDrive.getCurrentPosition();
+                newRightTarget = robot.frontRightDrive.getCurrentPosition();
+                newLeftBackTarget = robot.rearLeftDrive.getCurrentPosition();
+                newRightBackTarget = robot.rearRightDrive.getCurrentPosition();
+            }
+
             robot.frontLeftDrive.setTargetPosition(newLeftTarget);
             robot.frontRightDrive.setTargetPosition(newRightTarget);
             robot.rearLeftDrive.setTargetPosition(newLeftBackTarget);

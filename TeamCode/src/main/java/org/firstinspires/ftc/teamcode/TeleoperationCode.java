@@ -7,6 +7,7 @@ import android.widget.Switch;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
@@ -18,16 +19,17 @@ public class TeleoperationCode extends LinearOpMode {
 
     HardwarePushturtl robot = new HardwarePushturtl();
     EncoderDriver encoderDriver = new EncoderDriver(this, robot, telemetry);
+    PID_Shell pid = new PID_Shell(this, robot, telemetry);
 
     double MASTER_MULTIPLIER        = 0.6;
     double FORWARDNESS_MULTIPLIER   = 0.7;
     double STRAFENESS_MULTIPLIER    = 1;
     double TURNYNESS_MULTIPLIER     = 0.7;
-    double AUXILIARY_TURNYNESS_MULTIPLIER = 0.02;
+    double AUXILIARY_TURNYNESS_MULTIPLIER = 0.00002;
     double HOOKPOWER_MULTIPLIER     = 1;
     double ARM_ANGLE_MULTIPLIER     = 0.8;
     double ARM_MAGNITUDE_MULTIPLIER = 0.8;
-
+    double INTAKE_MULTIPLIER        = 1;
 
     @Override
     public void runOpMode() {
@@ -35,6 +37,8 @@ public class TeleoperationCode extends LinearOpMode {
         Boolean precisionMode = false;
         Boolean flagMode = false;
         double flagtime = 0;
+        ElapsedTime restTime = new ElapsedTime();
+        double restPosition = 0;
         waitForStart();
 
         Context context = hardwareMap.appContext;
@@ -64,6 +68,9 @@ public class TeleoperationCode extends LinearOpMode {
             double TURNYNESS   = (gamepad1.right_stick_x * TURNYNESS_MULTIPLIER) +
                     (gamepad2.right_stick_x * AUXILIARY_TURNYNESS_MULTIPLIER);
 
+            double ARMANGLENESS= gamepad2.right_stick_y * ARM_ANGLE_MULTIPLIER;
+            double INTAKENESS  = gamepad2.left_stick_y * INTAKE_MULTIPLIER;
+
             //robot.rearLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             //robot.rearRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             //robot.frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -83,41 +90,26 @@ public class TeleoperationCode extends LinearOpMode {
             robot.frontLeftDrive.setPower(MASTER_MULTIPLIER * FL / MAX);
             robot.frontRightDrive.setPower(MASTER_MULTIPLIER * FR / MAX);
 
-            if (gamepad1.right_bumper) {
+            if (ARMANGLENESS != 0) {
+                robot.armPhi.setPower(ARMANGLENESS);
+                restTime.reset();
+                // restTime allows the robot to determine the initial position of the arm immediately after the arm stops moving.
+            } else {
+                while (restTime.milliseconds() < 75) {
+                    restPosition = robot.armPhi.getCurrentPosition();
+                }
+                pid.pidLoop(robot.armPhi, restPosition, 40, 0, 0.0001, 0.1, 0);
+            }
+
+            robot.intake.setPower(INTAKENESS);
+
+            if (gamepad1.left_trigger > 0.5) {
                 robot.hook.setPower(HOOKPOWER_MULTIPLIER);
-            } else if (gamepad1.right_trigger > 0.5) {
+            } else if (gamepad1.left_bumper) {
                 robot.hook.setPower(-HOOKPOWER_MULTIPLIER);
             } else {
                 robot.hook.setPower(0);
             }
-
-            if (gamepad2.right_trigger < 0.5) {
-                robot.clawRight.setPosition(0.92); //0.67
-            } else {
-                robot.clawRight.setPosition(-0.5); //-1
-            }
-
-            if (gamepad2.left_trigger < 0.5) {
-                robot.clawLeft.setPosition(-0.9); //-0.87
-            } else {
-                robot.clawLeft.setPosition(0.6); //0.6
-            }
-
-            if (gamepad1.left_bumper) {
-                robot.armPhi.setPower(ARM_ANGLE_MULTIPLIER);
-            } else if (gamepad1.left_trigger > 0.5) {
-                robot.armPhi.setPower(-ARM_ANGLE_MULTIPLIER);
-            } else {
-                robot.armPhi.setPower(0);
-            }
-/*
-
-            if (gamepad2.x && ARM_ANGLE_MULTIPLIER < 1) {
-                ARM_ANGLE_MULTIPLIER += 0.05;
-            } else if (gamepad2.b && ARM_ANGLE_MULTIPLIER > 0) {
-                ARM_ANGLE_MULTIPLIER -= 0.05;
-            }
-*/
 
             if (gamepad2.dpad_up) {
                 robot.armMagnitude.setPower(ARM_MAGNITUDE_MULTIPLIER);
@@ -125,6 +117,12 @@ public class TeleoperationCode extends LinearOpMode {
                 robot.armMagnitude.setPower(-ARM_MAGNITUDE_MULTIPLIER);
             } else {
                 robot.armMagnitude.setPower(0);
+            }
+
+            if (gamepad2.x) {
+                robot.release.setPosition(0.4);
+            } else {
+                robot.release.setPosition(0);
             }
 
             if (gamepad2.x && flagMode) {

@@ -33,19 +33,10 @@ public class AutonomousSnippetTesting extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        //pid_shell.pidLoop(0, 3, 100);
-        //encoderDriver.encoderDrive(0.7, 12, 12, 12, 12, 100);
-        //encoderDriver.encoderDrive(0.7, -33, 33, -33, 33, 100);
-        //encoderDriver.encoderDrive(0.7, 90, 90, 90, 90, 100);
-        //encoderDriver.encoderDrive(0.1, 12, 12, 12, 12, 100);
-        //encoderDriver.encoderDrive(0.1, -22, 22, -22, 22, 100);
-        //encoderDriver.encoderDrive(0.1, -12, 12, 12, -12, 100);
-
-        encoderDriver.encoderHook(0.5, 0, 30);
-        sleep(500);
-        encoderDriver.encoderDrive(0.3, 6, -6, -6, 6, 30);
-
-        sleep(5000);
+        while (opModeIsActive()) {
+            pid_shell.pidLoop(robot.armPhi, 50, 100, 0.3, 0.0001, 0.1, 0);
+            sleep(100);
+        }
 
         //telemetry.addData("Mission ", "Complete");
         telemetry.update();

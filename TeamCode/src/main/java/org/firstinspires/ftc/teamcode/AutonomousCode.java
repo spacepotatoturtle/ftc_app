@@ -74,81 +74,86 @@ public class AutonomousCode extends LinearOpMode {
 
         encoderDriver.encoderHook(0.6, 0, 30);
         sleep(500);
-        encoderDriver.encoderDrive(0.3, 6, -6, -6, 6, 30);
-        encoderDriver.encoderDrive(0.3, -18, -18, -18, -18, 30);
-        encoderDriver.encoderDrive(0.3, 8.5, -8.5, -8.5, 8.5, 30);
+        encoderDriver.encoderDrive(0.3, "Strafe", -6, 30);
+        encoderDriver.encoderDrive(0.3, "Forward", 14, 30);
+        encoderDriver.encoderDrive(0.3, "Strafe", -16, 30);
 
         int numShifts; // Number of times the robot shifts right (from phone side) based on the orientation of the minerals
 
         /** Activate Tensor Flow Object Detection. */
 
-        ArrayList<Double> Minerals = new ArrayList<>();
+        List<Double> Minerals = new ArrayList<>(3);
 
         if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
             // the last time that call was made.
             for (int number_of_checks = 1; number_of_checks <= 3;){
-                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                if (updatedRecognitions != null) {
-                    telemetry.addData("# Object Detected", updatedRecognitions.size());
-                    if (updatedRecognitions.size() == 1) {
-                        double Mineral = 0;
-                        for (Recognition recognition : updatedRecognitions) {
-                            if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                                Mineral = (double) recognition.getConfidence();
-                                telemetry.addData("Gold, Confidence: ", recognition.getConfidence());
-                            } else if (recognition.getLabel().equals(LABEL_SILVER_MINERAL)) {
-                                Mineral = -((double) recognition.getConfidence());
-                                telemetry.addData("Silver, Confidence: ", recognition.getConfidence());
+                if (tfod.getUpdatedRecognitions().size() != 0) {
+                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                    if (updatedRecognitions != null) {
+                        telemetry.addData("# Object Detected", updatedRecognitions.size());
+                        if (updatedRecognitions.size() == 1) {
+                            double Mineral = 0;
+                            for (Recognition recognition : updatedRecognitions) {
+                                if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
+                                    Mineral = (double) recognition.getConfidence();
+                                    //telemetry.addData("Value", Mineral);
+                                } else if (recognition.getLabel().equals(LABEL_SILVER_MINERAL)) {
+                                    Mineral = -((double) recognition.getConfidence());
+                                    //telemetry.addData("Silver, Confidence: ", recognition.getConfidence());
+                                }
                             }
+                            Minerals.add(Mineral);
                         }
-                        Minerals.add(Mineral);
-                        encoderDriver.encoderDrive(0.3, -14.5, 14.5, 14.5, -14.5, 30);
+                        telemetry.addData("Value", Minerals);
+                        telemetry.update();
                     }
-                    telemetry.update();
+                } else {
+                    Minerals.add(0.0);
+                }
+                sleep(5000);
+                if (number_of_checks != 3) {
+                    encoderDriver.encoderDrive(0.3, "Strafe", 14.5, 30);
                 }
                 number_of_checks ++;
             }
         }
 
         if (Minerals.get(1) > Minerals.get(2) && Minerals.get(1) > Minerals.get(3)) {
-            numShifts = 0;
+            numShifts = 2;
         } else if (Minerals.get(2) > Minerals.get(1) && Minerals.get(1) > Minerals.get(3)) {
             numShifts = 1;
         } else {
-            numShifts = 2;
+            numShifts = 0;
         }
 
-        encoderDriver.encoderDrive(0.3, -14.5 * numShifts, 14.5 * numShifts,
-                14.5 * numShifts, -14.5 * numShifts, 30);
-        encoderDriver.encoderDrive(0.3,-6,6,6, -6,30);
-        encoderDriver.encoderDrive(0.3, -5, -5, -5, -5, 30);
+        encoderDriver.encoderDrive(0.3, "Strafe", -14.5 * numShifts, 30);
+        //encoderDriver.encoderDrive(0.3,"Strafe", 6, 30);
+        encoderDriver.encoderDrive(0.3, "Forward", 5, 30);
         if (craterDistance.isChecked()) {
             // If the robot is on the side further away from the crater
-            encoderDriver.encoderDrive(0.3, -36, -36, -36, -36, 30);
-            encoderDriver.encoderDrive(0.3, -14.5 * (1 - numShifts), 14.5 * (1 - numShifts),
-                    14.5 * (1 - numShifts), -14.5 * (1 - numShifts), 30);
+            encoderDriver.encoderDrive(0.3, "Forward", 36, 30);
+            encoderDriver.encoderDrive(0.3, "Strafe", -14.5 * (1 - numShifts), 30);
             // depot
             robot.flag.setPosition(0.6);
             sleep(2000);
             //robot.flag.setPosition(0);
-            encoderDriver.encoderDrive(0.3, 12, 12, 12, 12, 30);
-            encoderDriver.encoderDrive(0.3, 12, -12, 12, -12, 30);
-            encoderDriver.encoderDrive(0.3, 24, -24, -24, 24, 30);
-            encoderDriver.encoderDrive(0.3, 70, 70, 70, 70, 30);
+            encoderDriver.encoderDrive(0.3, "Forward", -12, 30);
+            encoderDriver.encoderDrive(0.3, "Turn", -12, 30);
+            encoderDriver.encoderDrive(0.3, "Strafe", -24, 30);
+            encoderDriver.encoderDrive(0.3, "Forward", -70, 30);
         } else {
             // If the robot is on the closer side
-            encoderDriver.encoderDrive(0.3, 5, 5, 5, 5, 30);
-            encoderDriver.encoderDrive(0.3, 24 + 14.5 * numShifts, -24 - 14.5 * numShifts,
-                    -24 - 14.5 * numShifts, 24 + 14.5 * numShifts, 30);
-            encoderDriver.encoderDrive(0.3, -34, 34, -34, 34, 30);
-            encoderDriver.encoderDrive(0.3, -24, 24, 24, -24, 30);
-            encoderDriver.encoderDrive(0.3, -52, -52, -52, -52, 30);
+            encoderDriver.encoderDrive(0.3, "Forward", -5, 30);
+            encoderDriver.encoderDrive(0.3, "Strafe", -24 - 14.5 * numShifts, 30);
+            encoderDriver.encoderDrive(0.3, "Turn", -34, 30);
+            encoderDriver.encoderDrive(0.3, "Strafe", 24, 30);
+            encoderDriver.encoderDrive(0.3, "Forward", 52, 30);
             // depot
             robot.flag.setPosition(0.6);
             sleep(300);
             //robot.flag.setPosition(0);
-            encoderDriver.encoderDrive(0.3, 72, 72, 72, 72, 30);
+            encoderDriver.encoderDrive(0.3, "Forward", -72, 30);
         }
 
         //while (robot.imu.getAngularOrientation().firstAngle < 90) {

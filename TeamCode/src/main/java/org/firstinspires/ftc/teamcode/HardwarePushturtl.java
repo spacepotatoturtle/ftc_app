@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -20,11 +21,9 @@ public class HardwarePushturtl {
     public DcMotor hook = null;
     public DcMotor armPhi = null;
     public DcMotor armMagnitude = null;
-    //public Servo armLeft = null;
-    //public Servo armRight = null;
     public BNO055IMU imu = null;
-    public Servo clawRight = null;
-    public Servo clawLeft = null;
+    public CRServo intake = null;
+    public Servo release = null;
     public Servo flag = null;
 
     /* local OpMode members. */
@@ -49,11 +48,9 @@ public class HardwarePushturtl {
         hook = hwMap.get(DcMotor.class, "HOOK");
         armPhi = hwMap.get(DcMotor.class, "PHI");
         armMagnitude = hwMap.get(DcMotor.class, "EXT");
-        //armLeft = hwMap.get(Servo.class, "ARMPHIL");
-        //armRight = hwMap.get(Servo.class, "ARMPHIR");
         imu = hwMap.get(BNO055IMU.class, "IMU");
-        clawRight = hwMap.get(Servo.class, "CL");
-        clawLeft = hwMap.get(Servo.class, "CR");
+        release = hwMap.get(Servo.class, "RELEASE");
+        intake = hwMap.get(CRServo.class, "INTAKE");
         flag = hwMap.get(Servo.class, "FLAG");
         frontLeftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         frontRightDrive.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
@@ -68,10 +65,8 @@ public class HardwarePushturtl {
         rearLeftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rearRightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         hook.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //armLeft.setPosition(0);
-        //armRight.setPosition(0);
-        //clawRight.setPosition(0);
-        //clawLeft.setPosition(0);
+        intake.setPower(0);
+        release.setPosition(0);
         flag.setPosition(0);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
