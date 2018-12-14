@@ -15,7 +15,7 @@ public class AlexINIT extends LinearOpMode {
     private HardwarePushturtl robot = new HardwarePushturtl();   // Use a Pushbot's hardware
 
     private EncoderDriver encoderDriver = new EncoderDriver(this, robot, telemetry);
-    private PID_Loop pid_loop = new PID_Loop(this, robot, telemetry);
+    private PID_Loop pid_loop = new PID_Loop(this, telemetry);
 
     @Override
     public void runOpMode() throws InterruptedException {

@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 import java.lang.Math;
 
-/*
+/**
 This is the main teleoperational op mode of the robot.
 
 LAYOUT OF CODE:
@@ -30,15 +30,17 @@ public class TeleoperationCode extends LinearOpMode {
     HardwarePushturtl robot = new HardwarePushturtl();
     PID_Loop pid = new PID_Loop(this, telemetry);
 
-    // Coefficients to control speed of the various robot functions
-    // First driver's function coefficients
+    /* Coefficients to control speed of the various robot functions. */
+    /* First driver's function coefficients. */
+
     double MASTER_DRIVE_MULTIPLIER          = 0.6;
     double FORWARDNESS_MULTIPLIER           = 0.7;
     double STRAFENESS_MULTIPLIER            = 1;
     double TURNYNESS_MULTIPLIER             = 0.7;
     double AUXILIARY_TURNYNESS_MULTIPLIER   = 0.00002;
 
-    // Second driver's function coefficients
+    /* Second driver's function coefficients. */
+
     double HOOKPOWER_MULTIPLIER             = 1;
     double ARM_ANGLE_MULTIPLIER             = 0.8;
     double ARM_MAGNITUDE_MULTIPLIER         = 0.8;
@@ -49,7 +51,9 @@ public class TeleoperationCode extends LinearOpMode {
         robot.init(hardwareMap);
         ElapsedTime restTime = new ElapsedTime();
 
-        // Initialize modes of movement, variables, and IMU information to be used in teleop
+
+        /* Initialize modes of movement, variables, and IMU information to be used in teleop. */
+
         Boolean precisionMode = false;
         Boolean flagMode = false;
         double flagtime = 0;
@@ -58,10 +62,11 @@ public class TeleoperationCode extends LinearOpMode {
 
         waitForStart();
 
-        /*
-        This code calls information from the UI of the app, where we implemented switches that set
-        values such as team color and the optional flag wave option, which will be used later.
+
+        /* This code calls information from the UI of the app, where we implemented switches that
+        set values such as team color and the optional flag wave option, which will be used later.
         */
+
         Context context = hardwareMap.appContext;
         int idColor = context.getResources().getIdentifier("teamColor",
                                                            "id", context.getPackageName());
