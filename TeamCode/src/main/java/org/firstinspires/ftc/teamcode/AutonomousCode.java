@@ -27,7 +27,7 @@ public class AutonomousCode extends LinearOpMode {
     /* Declare OpMode members. */
     private HardwarePushturtl robot = new HardwarePushturtl();   // Use a Pushbot's hardware
     private EncoderDriver encoderDriver = new EncoderDriver(this, robot, telemetry);
-    private PID_Shell pid_shell = new PID_Shell(this, robot, telemetry);
+    private PID_Loop pid_loop = new PID_Loop(this, telemetry);
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia

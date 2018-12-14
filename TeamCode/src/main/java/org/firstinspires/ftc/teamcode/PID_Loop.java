@@ -8,34 +8,32 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /*
---------------------PID Shell----------------------
-This is a shell to plan out the architecture of the PID Loop.
-This loop is for maintaining velocity.
-NOTE: There are position and acceleration recorders, however, using those instead of manually
-    calculating the derivative and integral would require more complexity and parts (target
-    acceleration, target position, separate error calculation, etc.)
----------------------------------------------------
+--------------------------------------------PID Loop-------------------------------------------
+This class is a PID (Proportional, Integral, Derivative) Loop which gives better control of the
+robot in both the autonomous and teleoperational op modes. It can be used with any motor inside
+a loop with time increments (such as the teleop) but must be calibrated for three coefficients:
+kP, kI, and kD. The parameter updateTime specifies the time taken for the loop to repeat.
+-----------------------------------------------------------------------------------------------
 */
 
-class PID_Shell {
+class PID_Loop {
 
+    // Initializes variables
     private LinearOpMode autonomousMode;
-    private HardwarePushturtl robot;
     private Telemetry telemetry;
 
-    double value;
-    double err;
-    double errP = 0;
-    double errS = 0;
-    double P;
-    double D;
-    double I;
-    double correction;
+    private double value;
+    private double err;
+    private double errP = 0;
+    private double errS = 0;
+    private double P;
+    private double D;
+    private double I;
+    private double correction;
 
-    PID_Shell(LinearOpMode autonomousMode, HardwarePushturtl robot, Telemetry telemetry) {
+    PID_Loop(LinearOpMode autonomousMode, Telemetry telemetry) {
 
         this.autonomousMode = autonomousMode;
-        this.robot = robot;
         this.telemetry = telemetry;
 
     }

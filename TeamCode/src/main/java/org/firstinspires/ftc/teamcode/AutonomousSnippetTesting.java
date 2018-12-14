@@ -15,7 +15,7 @@ public class AutonomousSnippetTesting extends LinearOpMode {
     private HardwarePushturtl robot = new HardwarePushturtl();   // Use a Pushbot's hardware
 
     private EncoderDriver encoderDriver = new EncoderDriver(this, robot, telemetry);
-    private PID_Shell pid_shell = new PID_Shell(this, robot, telemetry);
+    private PID_Loop pid_loop = new PID_Loop(this, telemetry);
 
     @Override
     public void runOpMode() {
@@ -34,7 +34,7 @@ public class AutonomousSnippetTesting extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            pid_shell.pidLoop(robot.armPhi, 50, 100, 0.3, 0.0001, 0.1, 0);
+            pid_loop.pidLoop(robot.armPhi, 50, 100, 0.3, 0.0001, 0.1, 0);
             sleep(100);
         }
 

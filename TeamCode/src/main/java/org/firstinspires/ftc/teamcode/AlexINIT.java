@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -18,7 +15,7 @@ public class AlexINIT extends LinearOpMode {
     private HardwarePushturtl robot = new HardwarePushturtl();   // Use a Pushbot's hardware
 
     private EncoderDriver encoderDriver = new EncoderDriver(this, robot, telemetry);
-    private PID_Shell pid_shell = new PID_Shell(this, robot, telemetry);
+    private PID_Loop pid_loop = new PID_Loop(this, robot, telemetry);
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -41,7 +38,7 @@ public class AlexINIT extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        //pid_shell.pidLoop(0, 3, 100);
+        //pid_loop.pidLoop(0, 3, 100);
         /*
         runtime.reset();
         while (runtime.seconds() < 1) {
