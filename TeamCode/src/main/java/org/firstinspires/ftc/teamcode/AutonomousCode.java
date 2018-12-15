@@ -26,49 +26,48 @@ The code consists of two branches, depending on the starting position of the rob
 initial position closer to the crater and one for the position closer to the depot. The branch
 chosen depends on the value of a switch in the RC app UI. Each path goes in the order of first
 landing from the lander, displacing the correct mineral type among the samples, depositing the team
-marker in the depot, and going to the crater.
+marker in the depot, and going to the crater. #) will mark the steps the robot takes in each branch.
 */
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Self-Sufficient Turtle", group ="THE TURTLE")
 public class AutonomousCode extends LinearOpMode {
 
-    /* Declare OpMode members. */
+    /* Declares OpMode members. */
 
     private HardwarePushturtl robot = new HardwarePushturtl();   // Use a Pushbot's hardware
     private EncoderDriver encoderDriver = new EncoderDriver(this, robot, telemetry);
     private PID_Loop pid_loop = new PID_Loop(this, telemetry);
 
-    /**
-     * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
-     * localization engine.
-     */
-    private VuforiaLocalizer vuforia;
+    /* Calls the Vuforia engine which is used for the Tensor Flow Object Detection to determine
+    types of minerals. */
 
-    /**
-     * {@link #tfod} is the variable we will use to store our instance of the Tensor Flow Object
-     * Detection engine.
-     */
+    private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
+
+        /* Initializes robot and TFObjectDetector (as well as Vuforia). */
         // Initialize the robot
         initRobot();
-        ElapsedTime runtime = new ElapsedTime();
-
-        // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
-        // first.
         initVuforia();
-
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTfod();
         } else {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
         }
 
+
+        /* The code calls the value of a switch which belongs in the UI of the Robot Controller app,
+        which we use to tell the robot whether it starts closer to the crater or the depot, which
+        changes the path the robot takes. */
+
         Context context = hardwareMap.appContext;
         int id = context.getResources().getIdentifier("craterDistance", "id", context.getPackageName());
         Switch craterDistance = (Switch) (((Activity)context).findViewById(id));
+
+
+        /* Motors are turned to BRAKE mode, which gives them precision for autonomous. */
 
         robot.frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -76,12 +75,16 @@ public class AutonomousCode extends LinearOpMode {
         robot.rearRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.hook.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        // Wait for the game to start (driver presses PLAY)
+
+        /* Waits for the autonomous phase to begin. */
+
         telemetry.addData(">", "Press Play to start");
         telemetry.update();
         waitForStart();
 
-        /* 1) De-attaches from the lander and moves forward and left. */
+
+        /* 1) De-attaches from the lander and moves forward and left. Determines which mineral to
+        displace. */
 
         encoderDriver.encoderHook(0.6, 0, 30);
         sleep(500);
@@ -89,7 +92,13 @@ public class AutonomousCode extends LinearOpMode {
         encoderDriver.encoderDrive(0.3, "Forward", 14, 30);
         encoderDriver.encoderDrive(0.3, "Strafe", -16, 30);
 
-        int numShifts; // Number of times the robot shifts right (from phone side) based on the orientation of the minerals
+
+        /* This value determines represents of times the robot shifts right from the perspective of
+        facing the minerals from this point to when it determines which mineral is the gold one.
+        This is a convenient and compact way of later separating the robots movements to knock the
+        correct mineral WITHOUT clumsy if-else statements. */
+
+        int numShifts;
 
         /* Activate Tensor Flow Object Detection. The robot detects for an object by moving from
         left to right, stopping and activating the object detection in front of every mineral to
@@ -169,62 +178,70 @@ public class AutonomousCode extends LinearOpMode {
 
             robot.flag.setPosition(0.6);
             sleep(2000);
-            //robot.flag.setPosition(0);
+
+            /* 5) The robot drives to the crater. */
+
             encoderDriver.encoderDrive(0.3, "Forward", -12, 30);
             encoderDriver.encoderDrive(0.3, "Turn", -12, 30);
             encoderDriver.encoderDrive(0.3, "Strafe", -24, 30);
             encoderDriver.encoderDrive(0.3, "Forward", -70, 30);
+
         } else {
-            // If the robot is on the closer side
+
+            /* Starts closer to the crater. 3) The robot reunifies the three paths like in the other
+            branch, except the reunification position is halfway between the crater and the depot,
+            since using the same reunification point as the other branch is blocked by the crater.
+            */
+
             encoderDriver.encoderDrive(0.3, "Forward", -5, 30);
             encoderDriver.encoderDrive(0.3, "Strafe", -24 - 14.5 * numShifts, 30);
+
+            /* 4) Turns toward and runs to the depot. */
+
             encoderDriver.encoderDrive(0.3, "Turn", -34, 30);
             encoderDriver.encoderDrive(0.3, "Strafe", 24, 30);
             encoderDriver.encoderDrive(0.3, "Forward", 52, 30);
-            // depot
+
+            /* 5) Drops team marker. */
+
             robot.flag.setPosition(0.6);
             sleep(300);
-            //robot.flag.setPosition(0);
+
+            /* 6) Drives back to the crater. */
+
             encoderDriver.encoderDrive(0.3, "Forward", -72, 30);
         }
-
-        //while (robot.imu.getAngularOrientation().firstAngle < 90) {
-        //robot.frontLeftDrive.setPower(-0.3);
-        //robot.rearLeftDrive.setPower(-0.3);
-        //robot.frontRightDrive.setPower(0.3);
-        //robot.rearLeftDrive.setPower(0.3);
-        //}
-        //encoderDriver.encoderDrive(0.5, NINETY_DEGREE_TURN, -NINETY_DEGREE_TURN, NINETY_DEGREE_TURN, -NINETY_DEGREE_TURN, 100);
 
         telemetry.addData("Mission ", "Complete");
         telemetry.update();
     }
 
+    /*
+    This method initializes the encoderDriver class heavily used throughout the autonomous op mode.
+    */
+
     private void initRobot() {
         encoderDriver.init();
     }
 
-    /**
-     * Initialize the Vuforia localization engine.
-     */
+    /*
+    This method initializes the Vuforia localization engine to be used in the op mode.
+    */
+
     private void initVuforia() {
-        /*
-         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
-         */
+
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_LICENSE_KEY;
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
 
-        //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
-
-        // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
     }
 
-    /**
-     * Initialize the Tensor Flow Object Detection engine.
-     */
+    /*
+    Initializes the Tensor Flow Object Detection engine.
+    */
+
     private void initTfod() {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());

@@ -9,11 +9,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import static org.firstinspires.ftc.teamcode.AutonomousValues.COUNTS_PER_INCH_HOOK;
 import static org.firstinspires.ftc.teamcode.AutonomousValues.COUNTS_PER_INCH_WHEELS;
-import static org.firstinspires.ftc.teamcode.AutonomousValues.COUNTS_PER_MOTOR_REV;
-import static org.firstinspires.ftc.teamcode.AutonomousValues.REST_AFTER_ENCODER_RUN_MIL_SECONDS;
 
 /**
-Separate class that contains encoder drive mode methods used in the autonomous op mode.
+Separate class that contains encoder drive mode methods used heavily in the autonomous op mode.
 */
 
 class EncoderDriver {
