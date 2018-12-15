@@ -38,11 +38,10 @@ public class TeleoperationCode extends LinearOpMode {
     double FORWARDNESS_MULTIPLIER           = 0.7;
     double STRAFENESS_MULTIPLIER            = 1;
     double TURNYNESS_MULTIPLIER             = 0.7;
-    double AUXILIARY_TURNYNESS_MULTIPLIER   = 0.00002;
+    double AUXILIARY_TURNYNESS_MULTIPLIER   = 0.05;
 
     /* Second driver's function coefficients. */
 
-    double HOOKPOWER_MULTIPLIER             = 1;
     double ARM_ANGLE_MULTIPLIER             = 0.8;
     double ARM_MAGNITUDE_MULTIPLIER         = 0.8;
     double INTAKE_MULTIPLIER                = 1;
@@ -125,10 +124,17 @@ public class TeleoperationCode extends LinearOpMode {
 
             double MAX = Math.abs(Math.max(Math.max(RL, RR), Math.max(FL, FR)));
 
-            robot.rearLeftDrive.setPower(MASTER_DRIVE_MULTIPLIER * RL / MAX);
-            robot.rearRightDrive.setPower(MASTER_DRIVE_MULTIPLIER * RR / MAX);
-            robot.frontLeftDrive.setPower(MASTER_DRIVE_MULTIPLIER * FL / MAX);
-            robot.frontRightDrive.setPower(MASTER_DRIVE_MULTIPLIER * FR / MAX);
+            if (MAX > 1) {
+                robot.rearLeftDrive.setPower(MASTER_DRIVE_MULTIPLIER * RL / MAX);
+                robot.rearRightDrive.setPower(MASTER_DRIVE_MULTIPLIER * RR / MAX);
+                robot.frontLeftDrive.setPower(MASTER_DRIVE_MULTIPLIER * FL / MAX);
+                robot.frontRightDrive.setPower(MASTER_DRIVE_MULTIPLIER * FR / MAX);
+            } else {
+                robot.rearLeftDrive.setPower(MASTER_DRIVE_MULTIPLIER * RL);
+                robot.rearRightDrive.setPower(MASTER_DRIVE_MULTIPLIER * RR);
+                robot.frontLeftDrive.setPower(MASTER_DRIVE_MULTIPLIER * FL);
+                robot.frontRightDrive.setPower(MASTER_DRIVE_MULTIPLIER * FR);
+            }
 
 
             /* Telemetry for reference. (Mostly debugging.) */
