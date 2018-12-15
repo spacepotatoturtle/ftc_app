@@ -210,12 +210,13 @@ public class TeleoperationCode extends LinearOpMode {
             when it is let go, the hook automatically detracts to pull the robot up the lander. Look
             at the encoderDrive.encoderHook() for details. */
 
+            /*  doesn't work right now
             if (gamepad1.left_trigger < 0.5) {
                 encoderDrive.encoderHook(0.6, 3.5, 10);
             } else {
                 encoderDrive.encoderHook(0.6, 0, 10);
             }
-
+            /*
 
             /* OPTIONAL: The robot can wave the team flag around with a servo. */
 
