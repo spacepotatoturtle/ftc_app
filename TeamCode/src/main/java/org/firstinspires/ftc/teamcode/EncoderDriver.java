@@ -53,7 +53,8 @@ class EncoderDriver {
 
             if (type.equals("Forward")) {
 
-                /* Forward/Backwards type of movement. */
+                /* Forward/Backwards type of movement. Negative Inches parameter goes backwards,
+                positive Inches parameter goes forwards. */
 
                 newLeftTarget      = robot.frontLeftDrive.getCurrentPosition()
                                    + (int) (Inches * COUNTS_PER_INCH_WHEELS);
@@ -66,7 +67,8 @@ class EncoderDriver {
 
             } else if (type.equals("Strafe")) {
 
-                /* Left/Right type of movement. */
+                /* Left/Right type of movement. Negative Inches parameter goes left, positive Inches
+                parameter goes right. */
 
                 newLeftTarget      = robot.frontLeftDrive.getCurrentPosition()
                                    + (int) (Inches * COUNTS_PER_INCH_WHEELS);
@@ -79,7 +81,8 @@ class EncoderDriver {
 
             } else if (type.equals("Turn")) {
 
-                /* Turning type of movement. */
+                /* Turning type of movement. Negative Inches parameter turns left, positive Inches
+                parameter turns right. */
 
                 newLeftTarget      = robot.frontLeftDrive.getCurrentPosition()
                                    + (int) (Inches * COUNTS_PER_INCH_WHEELS);
@@ -167,7 +170,7 @@ class EncoderDriver {
     Secondary method that controls the hook for dismounting from the lander. Instead of basing on a
     distance, however, it goes to an absolute position, much like a servo, which is better suited
     for a situation where the hook is attempting to go to an unchanging length that is long enough
-    to allow the robot to dismount.
+    to allow the robot to mount/dismount from the lander.
     */
 
     void encoderHook(double speed, double hookInches, double timeoutS) {
@@ -175,27 +178,19 @@ class EncoderDriver {
 
         ElapsedTime runtime = new ElapsedTime();
 
-        // Ensure that the opmode is still active
         if (opMode.opModeIsActive()) {
 
-            // Determine new target position, and pass to motor controller
-            // NOTE: The code is a modified encoderDriver that allows the motor to behave like a servo
+            /* NOTE: The code does not factor the current position of the robot, unlike the
+            encoderDrive method. Otherwise, this method is nearly identical. */
+
             newHookTarget = (int) (hookInches * COUNTS_PER_INCH_HOOK);
             robot.hook.setTargetPosition(newHookTarget);
 
-            // Turn On RUN_TO_POSITION
             robot.hook.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            // reset the timeout time and start motion.
             runtime.reset();
             robot.hook.setPower(Math.abs(speed));
 
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-            // always end the motion as soon as possible.
-            // However, if you require that BOTH motors have finished their moves before the robot continues
-            // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opMode.opModeIsActive() &&
                 (runtime.seconds() < timeoutS) &&
                 (robot.hook.isBusy())) {
@@ -204,36 +199,18 @@ class EncoderDriver {
                 telemetry.update();
             }
 
-                // Display it for the driver.
-                // constant value, not needed to see. telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
-                //telemetry.addData("Path2", "Running at %7d :%7d",
-                    //robot.hook.getCurrentPosition());
-                //telemetry.update();
-
-                // Stop all motion;
             robot.hook.setPower(0);
 
-                // Turn off RUN_TO_POSITION
             robot.hook.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-                // sleep(250);   // optional pause after each move
         }
     }
 
-    // Apply zero power to the motors to stop.
-    void stopMotorsAndRestShortly() {
-        robot.frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.rearLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.rearRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        opMode.sleep(REST_AFTER_ENCODER_RUN_MIL_SECONDS);
-    }
 
     void init() {
-                /*
-         * Initialize the drive system variables.
-         * The init() method of the hardware class does all the work here
-         */
+
+        /* Initialize the drive system variables. The init() method of the hardware class does all
+        the work here. */
+
         robot.init(opMode.hardwareMap);
 
         // Send telemetry message to signify robot waiting;
@@ -250,7 +227,8 @@ class EncoderDriver {
         robot.rearLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rearRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        // Send telemetry message to indicate successful Encoder reset
+        /* Sends telemetry message to indicate successful Encoder reset */
+
         telemetry.addData("Path0",  "Starting at %7d :%7d",
                 robot.frontLeftDrive.getCurrentPosition(),
                 robot.frontRightDrive.getCurrentPosition(),

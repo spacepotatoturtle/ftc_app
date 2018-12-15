@@ -1,14 +1,15 @@
 package org.firstinspires.ftc.teamcode;
+
 /**
- * Configurations for robot for team 12547
- */
+List of configurations and values for the autonomous for easier control and calibration.
+*/
+
 public class AutonomousValues {
 
     public static final int     ONE_SECOND_IN_MIL                   = 1000;
 
-    /**
-     * VuMark configurations
-     */
+
+    /* VuMark configurations. */
 
     // Do not update
     public static final String  TAG = "Vuforia VuMark Sample";
@@ -19,10 +20,7 @@ public class AutonomousValues {
     public static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     public static final String LABEL_SILVER_MINERAL = "Silver Mineral";
 
-    // 50 milli-seconds before each servo move, so that the servo does not move too fast and sudden.
-    public static final int SLEEP_INTERVAL_BETWEEN_SERVO_MOVES_MS   = 50;
 
-    public static final double ENCODER_RUN_SPEED                    = 0.1;
     public static final int REST_AFTER_ENCODER_RUN_MIL_SECONDS      = ONE_SECOND_IN_MIL / 4;
 
     public static final double NINETY_DEGREE_TURN                   = 7 * 3.14159265358979;

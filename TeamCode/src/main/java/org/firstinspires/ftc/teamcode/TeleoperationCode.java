@@ -28,6 +28,7 @@ of motor movement.
 public class TeleoperationCode extends LinearOpMode {
 
     HardwarePushturtl robot = new HardwarePushturtl();
+    EncoderDriver encoderDrive = new EncoderDriver(this, robot, telemetry);
     PID_Loop pid = new PID_Loop(this, telemetry);
 
     /* Coefficients to control speed of the various robot functions. */
@@ -199,14 +200,14 @@ public class TeleoperationCode extends LinearOpMode {
             */
 
             /* First driver gets controls for the hook that is used to latch onto the lander in the
-            endgame. */
+            endgame. When the trigger is pressed, the hook lengthens to latch onto the lander, and
+            when it is let go, the hook automatically detracts to pull the robot up the lander. Look
+            at the encoderDrive.encoderHook() for details. */
 
-            if (gamepad1.left_trigger > 0.5) {
-                robot.hook.setPower(HOOKPOWER_MULTIPLIER);
-            } else if (gamepad1.left_bumper) {
-                robot.hook.setPower(-HOOKPOWER_MULTIPLIER);
+            if (gamepad1.left_trigger < 0.5) {
+                encoderDrive.encoderHook(0.6, 3.5, 10);
             } else {
-                robot.hook.setPower(0);
+                encoderDrive.encoderHook(0.6, 0, 10);
             }
 
 

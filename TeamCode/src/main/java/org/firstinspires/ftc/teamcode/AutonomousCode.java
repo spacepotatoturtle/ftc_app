@@ -18,13 +18,22 @@ import java.util.List;
 
 import static org.firstinspires.ftc.teamcode.AutonomousValues.*;
 
+/**
+This is the main autonomous op mode used in the competition.
+
+LAYOUT OF THE CODE:
+The code consists of two branches, depending on the starting position of the robot -- one for the
+initial position closer to the crater and one for the position closer to the depot. The branch
+chosen depends on the value of a switch in the RC app UI. Each path goes in the order of first
+landing from the lander, displacing the correct mineral type among the samples, depositing the team
+marker in the depot, and going to the crater.
+*/
+
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Self-Sufficient Turtle", group ="THE TURTLE")
 public class AutonomousCode extends LinearOpMode {
-    /**
-     * Team 12547 robot variables
-     */
 
     /* Declare OpMode members. */
+
     private HardwarePushturtl robot = new HardwarePushturtl();   // Use a Pushbot's hardware
     private EncoderDriver encoderDriver = new EncoderDriver(this, robot, telemetry);
     private PID_Loop pid_loop = new PID_Loop(this, telemetry);
@@ -72,6 +81,8 @@ public class AutonomousCode extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
+        /* 1) De-attaches from the lander and moves forward and left. */
+
         encoderDriver.encoderHook(0.6, 0, 30);
         sleep(500);
         encoderDriver.encoderDrive(0.3, "Strafe", -6, 30);
@@ -80,7 +91,11 @@ public class AutonomousCode extends LinearOpMode {
 
         int numShifts; // Number of times the robot shifts right (from phone side) based on the orientation of the minerals
 
-        /** Activate Tensor Flow Object Detection. */
+        /* Activate Tensor Flow Object Detection. The robot detects for an object by moving from
+        left to right, stopping and activating the object detection in front of every mineral to
+        determine it's "goldness", and logging each one into an array (Minerals). Then it determines
+        which one it is most confident is the gold one, and takes a certain path to knock that one
+        out. */
 
         List<Double> Minerals = new ArrayList<>(3);
 
@@ -119,6 +134,8 @@ public class AutonomousCode extends LinearOpMode {
             }
         }
 
+        /* Determines path based on which mineral is the gold mineral. */
+
         if (Minerals.get(1) > Minerals.get(2) && Minerals.get(1) > Minerals.get(3)) {
             numShifts = 2;
         } else if (Minerals.get(2) > Minerals.get(1) && Minerals.get(1) > Minerals.get(3)) {
@@ -127,14 +144,29 @@ public class AutonomousCode extends LinearOpMode {
             numShifts = 0;
         }
 
+        /* 2) Moves a certain amount back to the left to align itself with the gold mineral and
+        moves forward a bit to displace it. */
+
         encoderDriver.encoderDrive(0.3, "Strafe", -14.5 * numShifts, 30);
         //encoderDriver.encoderDrive(0.3,"Strafe", 6, 30);
         encoderDriver.encoderDrive(0.3, "Forward", 5, 30);
+
+        /* Now, the path splits into two possibilities, based on the value of the switch on the RC
+        app UI. This is because the switch is how we tell the robot which position it starts from
+        (the crater or the depot side). */
+
         if (craterDistance.isChecked()) {
-            // If the robot is on the side further away from the crater
+
+            /* Starts closer to the depot. 3) The robot is currently able to be in three independent
+            paths: one for each possible position of the golden mineral sample. In order to merge
+            them, all three paths reunite at a common point beyond the sample minerals and in front
+            of the depot. */
+
             encoderDriver.encoderDrive(0.3, "Forward", 36, 30);
             encoderDriver.encoderDrive(0.3, "Strafe", -14.5 * (1 - numShifts), 30);
-            // depot
+
+            /* 4) The robot drops the team marker into the depot. */
+
             robot.flag.setPosition(0.6);
             sleep(2000);
             //robot.flag.setPosition(0);

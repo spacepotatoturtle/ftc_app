@@ -5,18 +5,16 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-/*
+/**
 This op mode is used to test, debug, or calibrate any portion of the autonomous code individually,
 as well as testing new experimental ideas.
 */
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Experimental Autonomous", group ="THE TURTLE")
 public class AutonomousSnippetTesting extends LinearOpMode {
-    /**
-     * Team 12547 robot variables
-     */
 
     /* Declare OpMode members. */
+
     private HardwarePushturtl robot = new HardwarePushturtl();   // Use a Pushbot's hardware
 
     private EncoderDriver encoderDriver = new EncoderDriver(this, robot, telemetry);
